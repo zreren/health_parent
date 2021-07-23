@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="../img/asset-favico.ico">
+        <title>銀髮族健康檢測平台</title>
+        <link rel="stylesheet" href="../css/page-health-index.css" />
+        <link rel="stylesheet" href="../css/page-health-login.css" />
+        <link rel="stylesheet" href="../plugins/elementui/index.css" />
+        <script src="../plugins/jquery/dist/jquery.min.js"></script>
+        <script src="../plugins/healthmobile.js"></script>
+        <script src="../plugins/vue/vue.js"></script>
+        <script src="../plugins/vue/axios-0.18.0.js"></script>
+        <script src="../plugins/elementui/index.js"></script>
+    </head>
+    <body data-spy="scroll" data-target="#myNavbar" data-offset="150">
+        <div class="app">
+            <!-- 页面头部 -->
+            <div class="top-header">
+                <span class="f-left"><i class="icon-back" onclick="history.go(-1)"></i></span>
+                <span class="center">銀髮族健康檢測平台</span>
+                <span class="f-right"><i class="icon-more"></i></span>
+            </div>
+
+            <!-- 页面内容 -->
+            <div style="display: flex;justify-content: center;align-items: center">
+                <img src="../img/icon1.png" style="width: 10%;height: 10%">
+                <p style="font-size: 20px">您有肌少症吗？</p>
+            </div>
+            <div style="display: flex;justify-content: center;align-items: center">
+                <p style="color: #ff0000;font-size: 16px">*請確實輸入以下每個欄位</p>
+            </div>
+
+
+
+
+        </div>
+
+</body>
+    <script>
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                loginInfo: {}//登录信息
+            },
+        });
+    </script>
+</html>
