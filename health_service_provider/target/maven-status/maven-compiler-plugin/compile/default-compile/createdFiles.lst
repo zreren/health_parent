@@ -1,2 +1,4 @@
 com/health/dao/CheckItemDao.class
+com/health/service/impl/SarcopeniaServiceimpl.class
+com/health/dao/SarcopeniaDao.class
 com/health/service/impl/CheckItemServiceImpl.class

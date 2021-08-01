@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service(interfaceClass = CheckItemService.class)
+@Service(version = "1.0.0",interfaceClass = CheckItemService.class)
 @Transactional
 public class CheckItemServiceImpl implements CheckItemService {
     @Autowired

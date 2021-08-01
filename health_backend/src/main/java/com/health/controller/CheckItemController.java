@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
-    @Reference
+    @Reference(version = "1.0.0")
     private CheckItemService checkItemService;
 
     //新增

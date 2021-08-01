@@ -1,6 +1,7 @@
 com/health/pojo/OrderSetting.class
 com/health/pojo/Order.class
 com/health/entity/QueryPageBean.class
+com/health/pojo/Sarcopenia.class
 com/health/pojo/Menu.class
 com/health/constant/MessageConstant.class
 com/health/pojo/Permission.class
