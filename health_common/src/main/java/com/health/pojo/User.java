@@ -12,7 +12,8 @@ public class User implements Serializable{
     private Integer id; // 主键
     private Date birthday; // 生日
     private String gender; // 性别
-    private String username; // 用户名，唯一
+    private String user_age; //
+    private String user_name; // 用户名，唯一
     private String password; // 密码
     private String remark; // 备注
     private String station; // 状态
@@ -43,12 +44,12 @@ public class User implements Serializable{
         this.gender = gender;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getPassword() {

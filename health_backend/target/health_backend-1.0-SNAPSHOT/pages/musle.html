@@ -31,7 +31,7 @@
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
-                        <el-table-column type="id" align="center" label="序号"></el-table-column>
+<!--                        <el-table-column prop="id" type="id" align="center" label="序号"></el-table-column>-->
                         <el-table-column prop="user_id" label="用戶ID" align="center"></el-table-column>
                         <el-table-column prop="user_name" label="用戶姓名" align="center"></el-table-column>
                         <el-table-column label="性别" align="center">
@@ -41,12 +41,16 @@
                         </el-table-column>
                         <el-table-column prop="user_age" label="年齡" align="center"></el-table-column>
                         <el-table-column prop="user_height" label="身高" align="center"></el-table-column>
-                        <el-table-column prop="resistance" label="電阻" align="center"></el-table-column>
+                        <el-table-column prop="user_resistance" label="電阻" align="center"></el-table-column>
                         <el-table-column prop="fistgrip" label="第一次握力" align="center"></el-table-column>
                         <el-table-column prop="secondgrip" label="第二次握力" align="center"></el-table-column>
-                        <el-table-column prop="firtwalk" label="第一次行走秒數" align="center"></el-table-column>
+                        <el-table-column prop="fistwalk" label="第一次行走秒數" align="center"></el-table-column>
                         <el-table-column prop="secondwalk" label="第二次行走秒數" align="center"></el-table-column>
-                        <el-table-column prop="sarcopenia" label="是否有肌少症" align="center"></el-table-column>
+                        <el-table-column label="是否有肌少症" align="center">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.sarcopenia == '0' ? '沒有' : scope.row.sarcopenia == '1' ? '有':'有'}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="操作" align="center">
                             <template slot-scope="scope">
                                 <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
