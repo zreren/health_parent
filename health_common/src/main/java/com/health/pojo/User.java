@@ -12,7 +12,12 @@ public class User implements Serializable{
     private Integer id; // 主键
     private Date birthday; // 生日
     private String gender; // 性别
+<<<<<<< Updated upstream
     private String username; // 用户名，唯一
+=======
+    private Integer user_age; //
+    private String user_name; // 用户名，唯一
+>>>>>>> Stashed changes
     private String password; // 密码
     private String remark; // 备注
     private String station; // 状态
@@ -26,6 +31,10 @@ public class User implements Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public Integer getUser_age(){return user_age;}
+
+    public void setUser_age(Integer user_age){this.user_age=user_age;}
 
     public Date getBirthday() {
         return birthday;
