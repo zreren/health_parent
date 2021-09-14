@@ -54,8 +54,6 @@
         where id = #{id}
     </update>
 
-    <select id="findById" parameterType="int" resultType="com.health.pojo.CheckItem">
-        select * from t_checkitem where id = #{id}
-    </select>
+
 
 </mapper>

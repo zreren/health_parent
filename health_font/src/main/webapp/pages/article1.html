@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+</head>
+<body>
+<div id="app">
+    <van-nav-bar
+            title="銀髮族健康資訊"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <H2 STYLE="padding: 10px"> 愛吃肉的朋友有福了，讓我們一起均衡吃肉減肥吧！</H2>
+    <img src="https://care.loveon.com.tw/wp-content/uploads/2019/01/201901280556461548655006-385309516.jpg" style="width: 100%" />
+    <p style="font-size: 25px;padding: 15px;letter-spacing:3px;line-height:150%">根據美國史丹佛大學的研究顯示，提倡多吃肉，少吃澱粉的阿金斯減肥法居然成效會高達2倍！究竟是為什麼呢？樂關懷帶您一起了解。
+
+
+
+    阿金斯博士認為，這種多吃肉的減肥療法，原理很簡單，少吃碳水化合物，會降低胰島素的含量，並不會常常覺得肚子餓，而身體也會主動燃燒脂肪；但是阿金斯減肥法，在1970年代提出時，卻引起營養學家的抨擊，認為阿金斯提倡不平衡的飲食。其實想減肥不難，有均衡飲食的概念，吃肉肉減肥也能很開心唷~
+
+
+
+    阿金斯減肥法有效嗎？
+
+    綜合媒體報導，美國史丹佛大學發表最新研究結果，針對時下最流行的4大減肥法，進行實驗研究，其中包括少吃澱粉，多吃肉的「阿金斯減肥法」；強調生活形態，運動、態度、關係、營養的「LEARN減肥法」，高蛋白質、低碳水化合物的「區域減肥法」，還有高纖維、低脂飲食的「歐寧胥減肥法」。
+
+    透過311名女性為對象為期一年的實驗證明，結果發現阿金斯比起其他的減肥法，效果好到將近2倍，用阿金斯減肥法的女性，不僅瘦得最多，身體的新陳代謝，也沒有造成明顯副作用。
+
+    樂關懷提醒大家，建議需要減肥者，請遵循專業營養師的協助，均衡健康才是最重要的唷！
+
+
+
+    均衡營養四步驟：
+
+
+
+    1.增加蔬菜攝取
+
+    雖然阿金斯減肥法的瘦身速度相當吸引人，但在吃肉的前提下還是要加強膳食纖維的攝取，避免可能有消化不良或是腹脹、便祕等腸胃問題。每日蔬果建議：成年女性攝取量應達7份（每份約拳頭一般大），成年男性9份，小孩5份，來維持身體營養所需唷。
+
+    2.多吃白肉，少吃紅肉
+
+    喜歡吃牛肉等紅肉的民眾，可改以海鮮、雞肉等白肉，同時搭配適量富含抗氧化維生素、花青素的蔬果，保持均衡。
+
+    而牛肉雖是獲取鐵質很好的食物來源，不過其含油量偏高，且加熱後容易產生致癌物質，建議每周吃2次左右即可。
+
+    3.碳水化合物不可少
+
+    碳水化合物是維持人體生命的三大營養素之一，如果攝取不足，恐將引起注意力不足或是脂肪代謝紊亂的發生。因此，建議即便是減肥期間，仍應適量攝取碳水化合物，如地瓜、南瓜等。
+
+
+
+    小樂貼心叮嚀：
+
+        想要減肥的朋友們，首先還是要了解自己的BMI值是不是有在正常範圍內唷，如果在正常範圍內的朋友們，建議可以已均衡飲食的方向走就好囉，創造健康好體態、多運動才是首要之道~</p>
+    <van-divider>技術提供：中華醫事科技大學</van-divider>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+
+        },
+        methods:{
+            onClickLeft() {
+                history.go(-1)
+            },
+        }
+    })
+</script>
+</body>
+
+</html>

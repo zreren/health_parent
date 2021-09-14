@@ -12,16 +12,14 @@ public class User implements Serializable{
     private Integer id; // 主键
     private Date birthday; // 生日
     private String gender; // 性别
-<<<<<<< Updated upstream
-    private String username; // 用户名，唯一
-=======
     private Integer user_age; //
     private String user_name; // 用户名，唯一
->>>>>>> Stashed changes
     private String password; // 密码
     private String remark; // 备注
     private String station; // 状态
-    private String telephone; // 联系电话
+    private String user_id; // 联系电话
+    private String organization; // 機構
+    private String role;
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
 
     public Integer getId() {
@@ -32,17 +30,29 @@ public class User implements Serializable{
         this.id = id;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Integer getUser_age(){return user_age;}
 
     public void setUser_age(Integer user_age){this.user_age=user_age;}
 
-    public Date getBirthday() {
-        return birthday;
-    }
+    public String getOrganization(){return organization;}
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+    public void setOrganization(String organization){this.organization=organization;}
+//
+//    public Date getBirthday() {
+//        return birthday;
+//    }
+//
+//    public void setBirthday(Date birthday) {
+//        this.birthday = birthday;
+//    }
 
     public String getGender() {
         return gender;
@@ -52,12 +62,12 @@ public class User implements Serializable{
         this.gender = gender;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getPassword() {
@@ -84,12 +94,12 @@ public class User implements Serializable{
         this.station = station;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public Set<Role> getRoles() {

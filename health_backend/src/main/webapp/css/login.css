@@ -145,3 +145,7 @@ html,body {
 .svg-container .username{
   background: url(../img/pwd.png) no-repeat 0 50%;
 }
+
+body{
+  background: url(../img/bg.jpg) ;
+}

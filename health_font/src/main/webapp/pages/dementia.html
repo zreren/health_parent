@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Vant CDN Demo</title>
+
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+
+
+</head>
+<style>
+    body {
+        color: #333;
+        background-color: #f8f8f8;
+    }
+    p{
+        margin-left: 10px;
+    }
+    sum{
+        color: #3a8ee6;
+    }
+</style>
+<body>
+<div id="app">
+    <van-nav-bar
+            title="銀髮族健康監測-失智症採集"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <van-cell v-bind:title="username" icon="manager-o" >來自{{organization}}</van-cell>
+    <!-- 模板 -->
+
+        <!-- 通用错误 -->
+        <van-empty image="error" description="描述文字" />
+        <!-- 网络错误 -->
+        <van-empty image="network" description="描述文字" />
+        <!-- 搜索提示 -->
+        <van-empty image="search" description="描述文字" />
+        <p style="margin-left: 10px">用戶檔案</p>
+    <van-form @submit="onSubmit">
+    <van-cell-group>
+        <van-cell title="信息調取方式" >
+            <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >從數據庫中調取</van-radio>
+                <van-radio name="2">新建用戶檔案</van-radio>
+
+            </van-radio-group>
+        </van-cell>
+
+            <van-field
+                    v-model="user_id"
+                    center
+                    clearable
+                    label="用戶手機號碼"
+                    placeholder="請輸入手機號碼"
+            >
+                <template #button>
+                    <van-button size="small" type="primary">立即查詢</van-button>
+                </template>
+            </van-field>
+
+
+    </van-cell-group>
+    <P>題目</P>
+
+    <van-cell-group>
+        <van-cell title="1：今年是哪一年" >
+            <van-radio-group v-model="q1" direction="horizontal" style="display: flex;">
+                <van-radio name="0">錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="2：現在是是什麼季節？" >
+            <van-radio-group v-model="q2" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="3：今天是幾號？" >
+            <van-radio-group v-model="q3" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="4：今天是禮拜幾？" >
+            <van-radio-group v-model="q4" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="5：現在是哪一個月份？" >
+            <van-radio-group v-model="q5" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="7：我們現在是在哪一個縣，市？" >
+            <van-radio-group v-model="q7" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="8：這間醫院（診所）的名稱？" >
+            <van-radio-group v-model="q8" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="9：現在我們在幾樓" >
+            <van-radio-group v-model="q9" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="10：這裡是哪一科？" >
+            <van-radio-group v-model="q10" direction="horizontal" style="display: flex;">
+                <van-radio name="1" >錯誤0</van-radio>
+                <van-radio name="2">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="问题11：重複這三個名稱1：藍色，悲傷，火車" >
+            <van-radio-group v-model="q11" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+                <van-radio name="2">正確2</van-radio>
+                <van-radio name="3">正確3</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+
+        <van-cell title="12：從100開始連續減7，一直減7直到我說停為止（每對一次一份）" style="display: flex;">
+            <sum>93</sum>
+            <van-radio-group v-model="q12">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+                <van-radio name="2">正確2</van-radio>
+                <van-radio name="3">正確3</van-radio>
+                <van-radio name="4">正確4</van-radio>
+                <van-radio name="5">正確5</van-radio>
+            </van-radio-group>
+        </van-cell>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="13：藍色，悲傷，火車（展示約五分鐘以後，說出剛剛展示的東西，沒對一次得一分，不論順序）" >
+            <van-radio-group v-model="q13" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+                <van-radio name="2">正確2</van-radio>
+                <van-radio name="3">正確3</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+
+        <van-cell title="14.（拿出手錶詢問）這是什麼？" >
+            <van-radio-group v-model="q14" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="15.（拿出鉛筆問）這是什麼？" >
+            <van-radio-group v-model="q15" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="16.請跟我唸一句話【白紙真正寫黑字】" >
+            <van-radio-group v-model="q16" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="17.請跟我唸一句話【請閉上眼睛】" >
+            <van-radio-group v-model="q17" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-cell title="18.請用左/右（非利手）拿這張紙（三步驟指令），對一步得一分" >
+            <span>1.把他折成對半</span>
+            <span>2.然後置於大腿上面</span>
+            <van-radio-group v-model="q18" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">1分</van-radio>
+                <van-radio name="2">2分</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-divider ></van-divider>
+        <van-cell title="19.請在紙上寫一句語意完整的句子（含主詞動詞且語意完整的句子）" >
+            <van-radio-group v-model="q19" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
+        <van-divider ></van-divider>
+        <van-cell title="20.在旁邊畫出一個相同的圓形（兩五邊形，交一四邊形，有兩交點則給分）" >
+            <van-image
+                    width="125"
+                    height="75"
+                    src="../img/trangle.png"
+            ></van-image>
+            <van-radio-group v-model="q20" direction="horizontal" style="display: flex;">
+                <van-radio name="0" >錯誤0</van-radio>
+                <van-radio name="1">正確1</van-radio>
+            </van-radio-group>
+        </van-cell>
+    </van-cell-group>
+    <div style="margin: 16px;">
+        <van-button round block type="info" native-type="submit">提交表單</van-button>
+    </div>
+    </van-form>
+
+    <van-divider>技術提供：中華醫事科技大學</van-divider>
+
+
+
+
+
+
+</div>
+
+<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+<script>
+    // 初始化 Vue 实例
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                switchChecked: false,
+                userinfoselect:'1',
+                user_id:'',
+                username: '',
+                password: '',
+                organization:'',
+                radio:'',
+                q1:'',
+                q2:'',
+                q3:'',
+                q4:'',
+                q5:'',
+                q7:'',
+                q8:'',
+                q9:'',
+                q10:'',
+                q11:'',
+                q12:'',
+                q13:'',
+                q14:'',
+                q15:'',
+                q16:'',
+                q17:'',
+                q18:'',
+                q19:'',
+                q20:'',
+            };
+        },
+
+        methods: {
+            onSubmit(values) {
+                console.log('submit', values);
+            },
+            onClickLeft() {
+                history.go(-1)
+            },
+        },
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.health.dao.UserfileServiceDao">
+    <!--新增-->
+<!--    <insert id="add" parameterType="com.health.pojo.Patient">-->
+<!--        insert into t_patient(user_id,name,sex,age,price,type,remark,attention)-->
+<!--        values-->
+<!--        (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})-->
+<!--    </insert>-->
+
+    <select id="selectByCondition" parameterType="string"
+            resultType="com.health.pojo.Patient">
+        select * from t_patient
+        <if test="value != null and value.length > 0">
+            where user_id = #{value} or user_name = #{value}
+        </if>
+    </select>
+
+    <select id="adminselectByCondition" parameterType="string"
+            resultType="com.health.pojo.User">
+        select * from t_user
+        <if test="value != null and value.length > 0">
+            where user_id = #{value} or user_name = #{value}
+        </if>
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+        delete from t_patient where user_id = #{user_id}
+    </delete>
+    <!--根据检查项id查询中间关系表-->
+<!--    <select id="findCountByCheckItemId" resultType="long" parameterType="int">-->
+<!--        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}-->
+<!--    </select>-->
+<!--    <update id="edit" parameterType="com.health.pojo.Patient">-->
+<!--        update t_checkitem-->
+<!--        <set>-->
+<!--            <if test="name != null">-->
+<!--                name = #{name},-->
+<!--            </if>-->
+<!--            <if test="sex != null">-->
+<!--                sex = #{sex},-->
+<!--            </if>-->
+<!--            <if test="code != null">-->
+<!--                code = #{code},-->
+<!--            </if>-->
+<!--            <if test="age != null">-->
+<!--                age = #{age},-->
+<!--            </if>-->
+<!--            <if test="price != null">-->
+<!--                price = #{price},-->
+<!--            </if>-->
+<!--            <if test="type != null">-->
+<!--                type = #{type},-->
+<!--            </if>-->
+<!--            <if test="attention != null">-->
+<!--                attention = #{attention},-->
+<!--            </if>-->
+<!--            <if test="remark != null">-->
+<!--                remark = #{remark},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+    <select id="countSa" resultType="long" >
+        select count(*) from test_Sarcopenia
+    </select>
+
+    <select id="countSatrue" resultType="long" >
+        select count(*) from test_Sarcopenia where sarcopenia = 1
+    </select>
+
+
+</mapper>

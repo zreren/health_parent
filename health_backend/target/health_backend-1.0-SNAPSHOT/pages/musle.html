@@ -29,8 +29,11 @@
                         <el-input placeholder="用戶編號" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
                         <el-button @click="findPage()" class="dalfBut">查詢</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
+                        <el-button type="primary" class="el-button--danger"  @click="findPageonlytrue()">僅查看肌少症用戶</el-button>
+
                     </div>
-                    <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+
+                    <el-table size="small" current-row-key="user_id" :data="dataList" stripe highlight-current-row>
 <!--                        <el-table-column prop="id" type="id" align="center" label="序号"></el-table-column>-->
                         <el-table-column prop="user_id" label="用戶ID" align="center"></el-table-column>
                         <el-table-column prop="user_name" label="用戶姓名" align="center"></el-table-column>
@@ -274,7 +277,7 @@
                     this.$refs['dataEditForm'].validate((valid)=>{
                         if(valid){
                             //表单校验通过，发送请求
-                            axios.post("/test_Sarcopenia/edit.do",this.formData).then((response)=> {
+                            axios.post("/Sarcopenia/edit.do",this.formData).then((response)=> {
                                 //隐藏编辑窗口
                                 this.dialogFormVisible4Edit = false;
                                 if(response.data.flag){
@@ -304,7 +307,7 @@
                     this.$refs['dataAddForm'].validate((valid) => {
                         if (valid) {
                             //表单数据校验通过，发送ajax请求将表单数据提交到后台
-                            axios.post("/checkitem/add.do",this.formData).then((response)=> {
+                            axios.post("/Sarcopenia/add.do",this.formData).then((response)=> {
                                 //隐藏新增窗口
                                 this.dialogFormVisible = false;
                                 //判断后台返回的flag值，true表示添加操作成功，false为添加操作失败
@@ -339,6 +342,10 @@
                         this.pagination.total = response.data.total;
                     });
                 },
+                findPageonlytrue(){
+                    this.pagination.queryString='1';
+                    this.findPage();
+                },
                 // 重置表单
                 resetForm() {
                     this.formData={};
@@ -351,7 +358,7 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
-                    axios.get("/checkitem/findById.do?id=" + row.id).then((res)=>{
+                    axios.get("/Sarcopenia/findById.do?user_id=" + row.user_id).then((res)=>{
                         if(res.data.flag){
                             //设置编辑窗口属性，dialogFormVisible4Edit为true表示显示
                             this.dialogFormVisible4Edit = true;
@@ -374,7 +381,7 @@
                         type:'warning'
                     }).then(()=>{
                         //用户确定
-                        axios.get("/checkitem/delete.do?id="+row.id).then((respone)=>{
+                        axios.get("/Sarcopenia/delete.do?user_id="+row.user_id).then((respone)=>{
                             if (respone.data.flag){
                                 this.$message({type:'success',message:respone.data.message});
                                 this.findPage();
@@ -394,7 +401,7 @@
                 this.$refs['dataEditForm'].validate((valid)=>{
                     if(valid){
                         //表单校验通过，发送请求
-                        axios.post("/checkitem/edit.do",this.formData).then((response)=> {
+                        axios.post("/Sarcopenia/edit.do",this.formData).then((response)=> {
                             //隐藏编辑窗口
                             this.dialogFormVisible4Edit = false;
                             if(response.data.flag){

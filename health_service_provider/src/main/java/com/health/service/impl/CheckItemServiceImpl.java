@@ -4,14 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.health.entity.PageResult;
-import com.health.entity.QueryPageBean;
 import com.health.service.CheckItemService;
 import com.health.dao.CheckItemDao;
 import com.health.pojo.CheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service(interfaceClass = CheckItemService.class)
 @Transactional

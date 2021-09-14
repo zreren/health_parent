@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div  id="app">
+<DIV STYLE="display: flex;justify-content: center;align-items: center;margin: 10px">
+    <DIV class="infobox" style="background-color: #3a8ee6;width: 20%" @click="sa()">
+        <P> 肌少症<BR>共計{{countsa}}份檔案 </P>
+        <IMG src="../img/muscle.png">
+    </DIV>
+    <DIV class="infobox" style="background-color: #5daf34;width: 20%" @click="frailty()">
+        <P> 衰弱症<BR>共計100份檔案</P>
+        <IMG src="../img/old%201.png">
+    </DIV>
+    <DIV class="infobox" style="background-color: red;width: 20%" @click="fracture()">
+        <P>  骨質疏鬆<BR>共計100份檔案</P>
+        <IMG src="../img/gutou2%201.png">
+    </DIV>
+    <DIV class="infobox" style="background-color: orange;width: 20%" @click="de()">
+        <P> 營養不良<BR>共計100份檔案</P>
+        <IMG src="../img/yingyangcan%201.png">
+    </DIV>
+
+
+    <DIV class="infobox" style="background-color: purple;width: 20%" @click="de()">
+        <P> 失智症<BR>共計100份檔案</P>
+        <IMG src="../img/zhihui%201.png">
+    </DIV>
+
+
+</DIV>
+</div>
+<style>
+    .infobox{
+        margin: 10px;
+        height: 100px;
+        color: white;
+        display: flex;
+        padding: 10px;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+    }
+    img{
+        height: 100px;
+        opacity:0.5;
+    }
+    @media only screen and (max-width: 1000px) {
+        img{
+            height: 50px;
+            opacity:0.5;
+        }
+    }
+    @media only screen and (max-width: 700px) {
+        img{
+            height: 25px;
+            opacity:0.5;
+        }
+        p{
+            font-size: 10px;
+        }
+    }
+
+</style>
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+            countsa:'',
+        },
+        created(){
+            axios.post("/userfile/countSa.do").then((response)=> {
+                //为模型数据赋值，基于VUE的双向绑定展示到页面
+                this.countsa = response.data;
+            });
+        },
+        methods:{
+            de(){
+                window.location.href='../pages/Dementia.html';
+            },
+            sa(){
+                window.location.href='../pages/musle.html';
+            },
+            fracture(){
+                window.location.href='../pages/fracture.html';
+            },
+            frailty(){
+                window.location.href='../pages/frailty.html';
+            }
+        }
+
+    })
+
+</script>
+</body>
+</html>

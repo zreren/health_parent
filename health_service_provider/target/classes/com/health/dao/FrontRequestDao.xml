@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.health.dao.FrontRequestDao">
+
+    <insert id="sarcopeniaadd" parameterType="com.health.pojo.Sarcopenia">
+        insert  into test_Sarcopenia(user_id,user_gender,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia,filetime)
+        values
+        (#{user_id},#{user_gender},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia},#{filetime})
+        ON DUPLICATE KEY UPDATE
+            user_gender = VALUES(user_gender),
+            user_height = VALUES(user_height),
+            user_resistance = VALUES(user_resistance),
+            fistgrip = VALUES(fistgrip),
+            secondgrip = VALUES(secondgrip),
+            fistwalk = VALUES(fistwalk),
+            secondwalk = VALUES(secondwalk),
+            sarcopenia = VALUES(sarcopenia),
+            filetime = VALUES(filetime)
+    </insert>
+
+    <insert id="addpatient" parameterType="com.health.pojo.Patient">
+        insert ignore into t_patient(user_id,user_gender,user_age,user_address,organization,user_name)
+        values
+        (#{user_id},#{user_gender},#{user_age},#{user_address},#{organization},#{user_name})
+        ON DUPLICATE KEY UPDATE
+        user_gender = VALUES(user_gender),
+        user_age = VALUES(user_age),
+        user_address = VALUES(user_address),
+        organization = VALUES(organization),
+        user_name = VALUES(user_name)
+
+    </insert>
+
+
+    <select id="getuser" resultType="com.health.pojo.Patient">
+        select * from t_patient where user_id = #{user_id}
+    </select>
+
+    <select id="getuserog" resultType="com.health.pojo.User">
+        SELECT organization from t_user where user_name=#{user_name}
+    </select>
+
+    <select id="getexit"  resultType="com.health.pojo.User">
+        select count(*) from test_Sarcopenia where user_id = #{user_id}
+    </select>
+
+    <select id="selectByCondition" parameterType="string"
+            resultType="java.util.Map">
+        select * from test_Sarcopenia s,t_patient p where s.user_id=p.user_id
+        <if test="value != null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+
+    <select id="sarcopeniasum"  resultType="java.lang.Integer">
+        SELECT count(*) FROM
+            test_sarcopenia
+    </select>
+
+</mapper>

@@ -1,2 +1,12 @@
+com/health/dao/UserDao.class
+com/health/dao/RoleDao.class
+com/health/dao/UserfileServiceDao.class
 com/health/dao/CheckItemDao.class
+com/health/service/impl/FrontRequestServiceImpl.class
 com/health/service/impl/CheckItemServiceImpl.class
+com/health/dao/PermissionDao.class
+com/health/service/impl/UserfileServiceImpl.class
+com/health/service/impl/SarcopeniaServiceimpl.class
+com/health/dao/FrontRequestDao.class
+com/health/dao/SarcopeniaDao.class
+com/health/service/impl/UserServiceImpl.class

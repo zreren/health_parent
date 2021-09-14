@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <title>Title</title>
+    <script src="../plugins/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <script src="../plugins/healthmobile.js"></script>
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <!-- 主文件 -->
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/antui.css"/>
+
+    <!-- 组件 -->
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/??dpl/widget/message.css,dpl/icon/message.css,dpl/widget/search.css"/>
+
+    <!-- js -->
+    <script src="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/antui.js"></script>
+    <LINK REL="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+    <style>
+        .articleimg{
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="app" class="app">
+
+    <van-nav-bar
+            title="銀髮族健康資訊"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+
+        <div class="am-card">
+            <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
+            <div class="am-card-body">
+                <a HREF="article1.html">
+                    <div class="am-card-item">
+                        <div class="am-card-minfo">
+                            <div class="articleimg">
+                                <img src="../img/jc-banner2.png" style="height: 90%;width: 90%" />
+                            </div>
+                            <div class="am-card-content">
+                                <div class="am-card-title">愛吃肉的朋友有福了，讓我們一起均衡吃肉減肥吧！</div>
+                                <div class="am-card-subtitle">吃肉一定長胖嗎？其實...</div>
+                            </div>
+                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                        </div>
+                    </div>
+                </a>
+                <a HREF="article1.html">
+                    <div class="am-card-item">
+                        <div class="am-card-minfo">
+                            <div class="articleimg">
+                                <img src="../img/jc-banner1.png" style="height: 90%;width: 90%" />
+                            </div>
+                            <div class="am-card-content">
+                                <div class="am-card-title">你還在吃生酮飲食嗎？</div>
+                                <div class="am-card-subtitle">生酮飲食是最近很好的飲食方式，但是...</div>
+                            </div>
+                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                        </div>
+                    </div>
+                </a>
+
+
+        <div style="display: flex;justify-content: center" >
+
+            <p style="margin: 10px;color: darkgrey">中華醫事科技大學技術提供</p>
+        </div>
+
+    </div>
+</div>
+<script>
+    new Vue({
+    el: '#app',
+    methods:{
+        onClickLeft(){
+            history.go(-1)
+        },
+    }
+});
+</script>
+</body>
+</html>

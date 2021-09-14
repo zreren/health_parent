@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>銀髮族健康檢測平台</title>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <script src="../plugins/jquery/dist/jquery.min.js"></script>
+    <script src="../plugins/healthmobile.js"></script>
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+</head>
+<style>
+    body{
+        color: #333;
+        background-color: #f8f8f8;
+        font-size: 25px;
+    }
+    p{
+        margin-left: 10px;
+        color: #3a8ee6;
+    }
+    sum{
+        color: #3a8ee6;
+    }
+    vaninput{
+        color: #3a8ee6;
+    }
+    .van {
+        font-size: 17px;
+
+    }
+</style>
+<body>
+<div id="app">
+    <van-nav-bar
+            title="銀髮族健康監測-失智症採集"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <van-cell v-bind:title="username" icon="manager-o" >來自{{organization}}</van-cell>
+    <!-- 模板 -->
+
+    <!-- 通用错误 -->
+    <van-empty image="error" description="描述文字" />
+    <!-- 网络错误 -->
+    <van-empty image="network" description="描述文字" />
+    <!-- 搜索提示 -->
+    <van-empty image="search" description="描述文字" />
+    <p style="margin-left: 10px">用戶檔案</p>
+
+    <van-form @submit="onSubmit">
+        <van-cell-group class="van">
+            <van-cell title="檔案調取方式" class="van">
+                <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
+                    <van-radio name="1" @click="changeway1" class="van">從數據庫中調取</van-radio>
+                    <van-radio name="2" @click="changeway2" class="van">新建用戶檔案</van-radio>
+
+                </van-radio-group>
+            </van-cell>
+
+            <van-field
+                    v-model="form.user_id"
+                    center
+                    clearable
+                    label="手機號碼"
+                    placeholder="請輸入手機號碼"
+                    v-if="queryvisual === 'true'"
+                    class="van"
+
+            >
+                <template #button>
+                    <van-button size="small" type="primary" @click="getUser" >立即查詢</van-button>
+                </template>
+            </van-field>
+            <div v-if="visual === 'false' ">
+            <P>用戶檔案</P>
+            <van-field label="姓名" v-model="userinfo.user_name" class="van">
+            </van-field>
+            <van-field label="年龄" v-model="userinfo.user_age" class="van">
+            </van-field>
+            <van-field label="性别" v-model="userinfo.user_gender" class="van">
+            </van-field>
+            <van-field label="电话" v-model="userinfo.user_id" class="van">
+            </van-field>
+                <van-field label="住址" v-model="userinfo.user_address" class="van">
+                </van-field>
+            </div>
+        </van-cell-group>
+        <P>肌肉量</P>
+
+            <van-divider ></van-divider>
+        <van-field v-model="form.user_resistance" type="number" label="電阻" class="van"></van-field>
+        <van-field v-model="form.user_height" type="number" label="身高" class="van"></van-field>
+            <!-- 输入密码 -->
+            <van-divider ></van-divider>
+            <P>握力</P>
+        <van-field v-model="form.fistgrip" type="number" label="第一次/公斤" class="van"></van-field>
+        <van-field v-model="form.secondgrip" type="number" label="第二次/公斤" class="van"></van-field>
+        <P>行走秒數（每六公尺）</P>
+        <van-field v-model="form.fistwalk" type="number" label="第一次/秒" class="van"></van-field>
+        <van-field v-model="form.secondwalk" type="number" label="第二次/秒" class="van"></van-field>
+        <van-divider></van-divider>
+
+        <van-cell V-if="danger != ''" style="">
+            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶沒有肌少症風險，檔案已提交到數據庫</div>
+           <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在肌少症風險，請關注</div>
+        </van-cell>
+
+        <div style="margin: 16px;">
+            <van-button round block type="info" native-type="submit" @click="onSubmit">提交表單</van-button>
+        </div>
+    </van-form>
+
+    <van-divider>技術提供：中華醫事科技大學</van-divider>
+
+
+
+
+
+</div>
+<style>
+    .van-swipe-cell__left,
+    .van-swipe-cell__right {
+        display: inline-block;
+        width: 65px;
+        height: 44px;
+        font-size: 15px;
+        line-height: 44px;
+        color: #fff;
+        text-align: center;
+        background-color: #f44;
+    }
+</style>
+<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+<script>
+    // 初始化 Vue 实例
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                username:'',
+                msg:'',
+                notifytype:'',
+                password:'',
+                userinfov:'',
+                user_address:'',
+                organization:'',
+                value:'',
+                visual:'',
+                queryvisual:'true',
+                userinfoselect:'1',
+                userinfovisual:'',
+                userinfov:{},
+                danger:'',
+                userinfo:{
+                    user_name:'xulier',
+                    user_age:'',
+                    user_id:'',
+                    user_gender: '',
+                },
+
+                form: {
+                    user_id: '',
+                    user_height: '',
+                    user_resistance: '',
+                    user_age: '',
+                    user_height:'',
+                    user_gender: '',
+                    fistwalk: '',
+                    secondwalk: '',
+                    fistgrip: '',
+                    secondgrip:'',
+                    sarcopenia:'',
+                    filetime:'',
+                },
+
+            };
+        },
+        created(){
+            //发送请求获取当前登录用户的用户名、
+            axios.get('/user/getUsername.do').then((response)=>{
+                this.username = response.data.data;
+                axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                    this.organization = response.data.data.organization;
+                });
+            });
+
+
+        },
+        methods: {
+            onSubmit(){
+                //判斷是否是肌少症
+                let midgrip=(this.fistgrip+this.secondgrip)/2;
+                let midwalk=(this.fistwalk+this.secondwalk)/2;
+                let everywalk=6/midwalk;
+
+                if(this.user_gender='0'){
+                    if (midgrip<18 && everywalk<0.8){
+                        this.sarcopenia='1';
+                    }else{
+                        this.sarcopenia='0'
+                    }
+
+                }else{
+                    if (midgrip<28 && everywalk<0.8){
+                        this.sarcopenia='1';
+                    }else{
+                        this.sarcopenia='0'
+                    }
+
+                }
+                console.log(this.sarcopenia);
+                this.danger='true'
+                this.userinfo.organization=this.organization
+                axios.post("/front/addpatient.do",this.userinfo).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.notifytype = 'danger';
+                        this.msg = '提交用户档案成功！'
+                        this.toNotify();
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+                this.form.user_id = this.userinfo.user_id
+                this.form.user_age = this.userinfo.user_age
+                this.form.user_gender = this.userinfo.user_gender
+                var date=new Date();
+                this.form.filetime = date.toLocaleDateString();
+               axios.post("/front/sarcopeniaadd.do",this.form).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.notifytype = 'success';
+                        this.msg = '提交档案成功！'
+                        this.toNotify();
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+            },
+            onClickLeft() {
+                history.go(-1)
+            },
+            getUser(){
+                axios.post("/front/getuser.do?user_id="+this.form.user_id).then((response) => {
+                    if(response.data.flag){
+                        this.useinfovisual='false';
+                        console.log(response.data.data);
+                        this.userinfov = response.data.data;
+                        if (this.organization===this.userinfov.organization){
+                            this.userinfo=this.userinfov;
+                            this.visual = 'false';
+                            this.notifytype = 'success';
+                            this.msg = '查询用户档案成功'
+                            this.toNotify();
+
+                        }else{
+                            this.visual = '';
+                            this.notifytype = 'danger';
+                            this.msg = '該用戶不屬於此機構，如有疑問請聯繫管理員'
+                            this.toNotify();
+                        }
+                    }else{
+                        //失败，提示失败信息
+                        this.visual = '';
+                        this.notifytype = 'warning';
+                        this.msg = '查询失败，请检测网络情况'
+                        this.toNotify();
+                    }
+                });
+
+
+            },
+            changeway2(){
+                this.queryvisual = 'false';
+                this.visual = 'false';
+            },
+            changeway1(){
+                this.queryvisual = 'true';
+            },
+            toNotify() {
+                this.$notify({ type: this.notifytype, message: this.msg });
+            }
+        },
+
+    });
+</script>
+</body>
+</html>

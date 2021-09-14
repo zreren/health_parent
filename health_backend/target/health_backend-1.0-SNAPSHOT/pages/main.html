@@ -4,9 +4,9 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>银发健康监测平台</title>
-    <meta name="description" content="传智健康">
-    <meta name="keywords" content="传智健康">
+    <title>銀髮健康監測平台</title>
+    <meta name="description" content="銀髮健康監測平台">
+    <meta name="keywords" content="銀髮健康監測平台">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <!-- 引入样式 -->
     <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -22,6 +22,7 @@
         padding: 0;
     }
     </style>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
     <div id="app">
@@ -34,19 +35,20 @@
                         <div style="color: white;font-size: 22px;">銀髮族營養監測</div>
                     </a>
                     <div class="right-menu">
-                        <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>
+                        <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>幫助</span>
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
                             <div class="avatar-wrapper">
                                 <img src="../img/user2-160x160.jpg" class="user-avatar">
-                                Jay.Liu
+                                <!--展示用户名-->
+                                歡迎您，{{username}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item divided>
                                     <span style="display:block;">修改密码</span>
                                 </el-dropdown-item>
                                 <el-dropdown-item divided>
-                                        <span style="display:block;">退出</span>
-                                    </el-dropdown-item>
+                                    <span style="display:block;"><a href="/logout.do">退出</a></span>
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -69,7 +71,7 @@
                     </el-menu>
                 </el-aside>
                 <el-container>
-                    <iframe name="right" class="el-main" src="checkitem.html" width="100%" height="580px" frameborder="0"></iframe>
+                    <iframe name="right" class="el-main" src="statistics.html" width="100%" height="580px" frameborder="0"></iframe>
                 </el-container>
             </el-container>
         </el-container>
@@ -83,126 +85,140 @@
     new Vue({
         el: '#app',
         data:{
+            username:null,//用户名
             menuList:[
                 {
                     "path": "1",
                     "title": "工作台",
                     "icon":"fa-dashboard",
-                    "children": []
+                    "children": [{
+                                    "path": "/1-1",
+                                    "title": "統計",
+                                    "linkUrl":"statistics.html",
+                                    "children":[]
+                    }
+                    ]
                 },
                 {
                     "path": "2",
-                    "title": "会员管理",
+                    "title": "用戶管理",
                     "icon":"fa-user-md",
                     "children": [
                         {
                             "path": "/2-1",
-                            "title": "会员档案",
-                            "linkUrl":"member.html",
+                            "title": "患者档案",
+                            "linkUrl":"user.html",
                             "children":[]
                         },
                         {
                             "path": "/2-2",
-                            "title": "体检上传",
+                            "title": "帳號管理",
+                            "linkUrl":"adminuser.html",
                             "children":[]
                         },
-                        {
-                            "path": "/2-3",
-                            "title": "会员统计",
-                            "linkUrl":"all-item-list.html",
-                            "children":[]
-                        },
+                        // {
+                        //     "path": "/2-3",
+                        //     "title": "会员统计",
+                        //     "linkUrl":"all-item-list.html",
+                        //     "children":[]
+                        // },
                     ]
                 },
                 {
                     "path": "3",
-                    "title": "预约管理",
+                    "title": "健康訊息發布",
                     "icon":"fa-tty",
                     "children": [
                         {
                             "path": "/3-1",
-                            "title": "预约列表",
+                            "title": "文章管理",
                             "linkUrl":"ordersettinglist.html",
                             "children":[]
                         },
                         {
                             "path": "/3-2",
-                            "title": "预约设置",
+                            "title": "營養食譜",
                             "linkUrl":"ordersetting.html",
                             "children":[]
                         },
-                        {
-                            "path": "/3-3",
-                            "title": "套餐管理",
-                            "linkUrl":"setmeal.html",
-                            "children":[]
-                        },
-                        {
-                            "path": "/3-4",
-                            "title": "检查组管理",
-                            "linkUrl":"checkgroup.html",
-                            "children":[]
-                        },
-                        {
-                            "path": "/3-5",
-                            "title": "检查项管理",
-                            "linkUrl":"checkitem.html",
-                            "children":[]
-                        },
+                        // {
+                        //     "path": "/3-3",
+                        //     "title": "套餐管理",
+                        //     "linkUrl":"setmeal.html",
+                        //     "children":[]
+                        // },
+                        // {
+                        //     "path": "/3-4",
+                        //     "title": "检查组管理",
+                        //     "linkUrl":"checkgroup.html",
+                        //     "children":[]
+                        // // },
+                        // {
+                        //     "path": "/3-5",
+                        //     "title": "检查项管理",
+                        //     "linkUrl":"checkitem.html",
+                        //     "children":[]
+                        // },
                     ]
                 },
                 {
                     "path": "4",
-                    "title": "健康评估",
+                    "title": "健康評估",
                     "icon":"fa-stethoscope",
                     "children":[
                         {
                             "path": "/4-1",
                             "title": "肌少症",
-                            "linkUrl":"all-medical-list.html",
+                            "linkUrl":"musle.html",
                             "children":[]
                         },
                         {
                             "path": "/4-2",
                             "title": "衰弱症",
-                            "linkUrl":"all-medical-list.html",
+                            "linkUrl":"Frailty.html",
                             "children":[]
                         },
                         {
                             "path": "/4-3",
-                            "title": "骨质疏松",
-                            "linkUrl":"all-medical-list.html",
+                            "title": "骨質疏鬆",
+                            "linkUrl":"fracture.html",
                             "children":[]
                         },
                         {
                             "path": "/4-4",
-                            "title": "营养失调",
-                            "linkUrl":"all-medical-list.html",
+                            "title": "營養失調",
+                            "linkUrl":"Disorder.html",
                             "children":[]
                         },
                         {
                             "path": "/4-5",
                             "title": "失智症",
-                            "linkUrl":"all-medical-list.html",
+                            "linkUrl":"Dementia.html",
                             "children":[]
                         },
                     ]
                 },
-                {
-                    "path": "5",     //菜单项所对应的路由路径
-                    "title": "统计分析",     //菜单项名称
-                    "icon":"fa-heartbeat",
-                    "children":[//是否有子菜单，若没有，则为[]
-                        {
-                            "path": "/5-1",
-                            "title": "工作量统计",
-                            "linkUrl":"all-medical-list.html",
-                            "children":[]
-                        }
-                    ]
-                }
+                // {
+                //     "path": "5",     //菜单项所对应的路由路径
+                //     "title": "統計分析",     //菜单项名称
+                //     "icon":"fa-heartbeat",
+                //     "children":[//是否有子菜单，若没有，则为[]
+                //         {
+                //             "path": "/5-1",
+                //             "title": "工作量统计",
+                //             "linkUrl":"all-medical-list.html",
+                //             "children":[]
+                //         }
+                //     ]
+                // }
             ]
-        }
+        },
+        created(){
+            //发送请求获取当前登录用户的用户名
+            axios.get('/user/getUsername.do').then((response)=>{
+                this.username = response.data.data;
+            });
+        },
     });
     $(function() {
             var wd = 200;

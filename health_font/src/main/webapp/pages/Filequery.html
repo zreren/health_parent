@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <link rel="icon" href="../img/asset-favico.ico">
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <title>銀髮族健康檢測平台</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <!-- 主文件 -->
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/antui.css"/>
+
+    <!-- 组件 -->
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/??dpl/widget/message.css,dpl/icon/message.css,dpl/widget/search.css"/>
+
+    <!-- js -->
+    <script src="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/antui.js"></script>
+    <LINK REL="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+</head>
+<body data-spy="scroll" data-target="#myNavbar" data-offset="150">
+<div id="app" class="app">
+
+
+    <!-- 页面头部 -->
+    <van-nav-bar
+            title="銀髮族健康監測檔案查詢"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <van-cell v-bind:title="username" icon="manager-o" >來自{{organization}}</van-cell>
+    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o">
+        在這裡查看您收集的用戶檔案以及後續關注有風險的用戶
+    </van-notice-bar>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+        <div class="am-card">
+            <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
+            <div class="am-card-body">
+                <a href="filedetail-sa.html">
+                    <div class="am-card-item">
+                        <div class="am-card-minfo">
+                            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+                                <img src="../img/muscle.png" />
+                            </div>
+                            <div class="am-card-content">
+                                <div class="am-card-title">肌少症</div>
+                                <div class="am-card-subtitle">數據庫裡一共有{{countSa}}份檔案</div>
+                            </div>
+                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                        </div>
+                        <div class="am-card-footnote" style="color: orange">
+                            <span style="color: gray">其中共有</span>
+                            <div style="background-color: orange;width: 10px;height: 10px;display: inline-block" ></div>
+                            {{countSatrue}}
+                            <span style="color: gray">份需要關注！</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="am-card-item">
+                    <div class="am-card-minfo">
+                        <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+                            <img src="../img/old%201.png" />
+                        </div>
+                        <div class="am-card-content">
+                            <div class="am-card-title">衰弱症</div>
+                            <div class="am-card-subtitle">數據庫裡一共有{{form.sarcopeniasum}}份檔案</div>
+                        </div>
+                        <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                    </div>
+                    <div class="am-card-footnote" style="color: orange">
+                        <span style="color: gray">其中共有</span>
+                        <div style="background-color: orange;width: 10px;height: 10px;display: inline-block" ></div>
+                        {{form.sarcopeniatrue}}
+                        <span style="color: gray">份需要關注！</span>
+                    </div>
+                </div>
+                <a>
+                    <div class="am-card-item">
+                        <div class="am-card-minfo">
+                            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+                                <img src="../img/gutou2%201.png" />
+                            </div>
+                            <div class="am-card-content" >
+                                <div class="am-card-title">骨質疏鬆</div>
+                                <div class="am-card-subtitle">數據庫裡一共有{{form.sarcopeniasum}}份檔案</div>
+                            </div>
+                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                        </div>
+                        <div class="am-card-footnote" style="color: orange">
+                            <span style="color: gray">其中共有</span>
+                            <div style="background-color: orange;width: 10px;height: 10px;display: inline-block" ></div>
+                            {{form.sarcopeniatrue}}
+                            <span style="color: gray">份需要關注！</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="am-card-item">
+                    <div class="am-card-minfo">
+                        <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+                            <img src="../img/yingyangcan%201.png" />
+                        </div>
+                        <div class="am-card-content">
+                            <div class="am-card-title">營養失調</div>
+                            <div class="am-card-subtitle">數據庫裡一共有{{form.sarcopeniasum}}份檔案</div>
+                        </div>
+                        <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                    </div>
+                    <div class="am-card-footnote" style="color: orange">
+                        <span style="color: gray">其中共有</span>
+                        <div style="background-color: orange;width: 10px;height: 10px;display: inline-block" ></div>
+                        {{form.sarcopeniatrue}}
+                        <span style="color: gray">份需要關注！</span>
+                    </div>
+
+                </div>
+                <a HREF="filedetail-de.html">
+                <div class="am-card-item">
+                    <div class="am-card-minfo">
+                        <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+                            <img src="../img/zhihui%201.png" />
+                        </div>
+                        <div class="am-card-content">
+                            <div class="am-card-title">失智症</div>
+                            <div class="am-card-subtitle">數據庫裡一共有{{countDe}}份檔案</div>
+                        </div>
+                        <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                    </div>
+                    <div class="am-card-footnote" style="color: orange">
+                        <span style="color: gray">其中共有</span>
+                        <div style="background-color: orange;width: 10px;height: 10px;display: inline-block" ></div>
+                        {{countDetrue}}
+                        <span style="color: gray">份需要關注！</span>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+
+        <div style="display: flex;justify-content: center" >
+
+            <p style="margin: 10px;color: darkgrey">中華醫事科技大學技術提供</p>
+        </div>
+
+    </div>
+</div>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+            countSa:'',
+            countSatrue:'',
+            countDe:'',
+            countDetrue:'',
+            organization:'',
+            username:'',
+            form:{
+                sarcopeniasum:'10',
+                sarcopeniatrue:'1',
+            }
+
+        },
+        created(){
+            console.log(1)
+            axios.post("/userfile/countSa.do").then((response)=> {
+                //請求sa的總檔案數
+                this.countSa = response.data;
+            });
+            axios.post("/userfile/countSatrue.do").then((response)=> {
+                //請求sa的病例檔案數
+                this.countSatrue = response.data;
+            });
+        },
+        methods:{
+            onClickLeft(){
+                history.go(-1)
+            },
+            countSa(){
+
+            },
+
+        }
+    })
+</script>
+</body>
+</html>
