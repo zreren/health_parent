@@ -21,5 +21,9 @@ public interface FrontRequestService {
     public PageResult ospageQuery(Integer currentPage, Integer pageSize, String queryString);
     public Patient getuser(String user_id);
     public Patient getanything(String user_id);
+    public Patient getanything2(String user_id);
+    public Patient getanything3(String user_id);
+    public Patient getanything4(String user_id);
+    public Patient getanything5(String user_id);
     public User getuserog(String user_name);
 }

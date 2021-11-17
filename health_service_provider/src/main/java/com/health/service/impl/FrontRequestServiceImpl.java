@@ -82,6 +82,26 @@ public class FrontRequestServiceImpl implements FrontRequestService{
 
 
     }
+    public Patient getanything2(String user_id) {
+        return frontRequestDao.getanything2(user_id);
+
+
+    }
+    public Patient getanything3(String user_id) {
+        return frontRequestDao.getanything3(user_id);
+
+
+    }
+    public Patient getanything4(String user_id) {
+        return frontRequestDao.getanything4(user_id);
+
+
+    }
+    public Patient getanything5(String user_id) {
+        return frontRequestDao.getanything5(user_id);
+
+
+    }
     public User getuserog(String user_name) {
         return frontRequestDao.getuserog(user_name);
     }

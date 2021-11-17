@@ -6,9 +6,9 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.health.pojo.Sarcopenia">
-        insert into test_Sarcopenia(user_id,user_name,user_age,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia)
+        insert into test_Sarcopenia(user_id,user_name,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia)
         values
-        (#{user_id},#{user_name},#{user_age},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia})
+        (#{user_id},#{user_name},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia})
     </insert>
     <select id="selectByCondition" parameterType="string"
             resultType="com.health.pojo.Sarcopenia">

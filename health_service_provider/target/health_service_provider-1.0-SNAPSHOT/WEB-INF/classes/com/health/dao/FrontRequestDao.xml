@@ -4,11 +4,10 @@
 <mapper namespace="com.health.dao.FrontRequestDao">
 
     <insert id="sarcopeniaadd" parameterType="com.health.pojo.Sarcopenia">
-        insert  into test_Sarcopenia(user_id,user_gender,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia,filetime)
+        insert  into test_Sarcopenia(user_id,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia,filetime)
         values
-        (#{user_id},#{user_gender},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia},#{filetime})
+        (#{user_id},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia},#{filetime})
         ON DUPLICATE KEY UPDATE
-            user_gender = VALUES(user_gender),
             user_height = VALUES(user_height),
             user_resistance = VALUES(user_resistance),
             fistgrip = VALUES(fistgrip),
@@ -29,8 +28,6 @@
             filetime = VALUES(filetime)
     </insert>
 
-
-
     <insert id="dementiaadd" parameterType="com.health.pojo.Dementia">
         insert  into test_dementia(user_id,education,score,dementia,filetime)
         values
@@ -42,13 +39,13 @@
              filetime = VALUES(filetime)
     </insert>
 
-    <insert id="frailtyadd" parameterType="com.health.pojo.Frailty">
+    <insert id="fraiadd" parameterType="com.health.pojo.Frailty">
         insert  into test_frailty(user_id,score,frailty,filetime)
         values
-            (#{user_id},#{score},#{dementia},#{filetime})
+            (#{user_id},#{score},#{frailty},#{filetime})
             ON DUPLICATE KEY UPDATE
                                  score = VALUES(score),
-                                 dementia = VALUES(dementia),
+            frailty = VALUES(frailty),
                                  filetime = VALUES(filetime)
     </insert>
 
@@ -124,8 +121,24 @@
     <select id="getuser" resultType="com.health.pojo.Patient">
         select * from t_patient where user_id = #{user_id}
     </select>
+
     <select id="getanything" resultType="com.health.pojo.Patient">
-        select * from (t_patient INNER JOIN test_Sarcopenia ON t_patient.user_id = test_Sarcopenia.user_id) INNER JOIN test_dementia ON t_patient.user_id=test_dementia.user_id
+        select * from t_patient p,test_Sarcopenia s where p.user_id = s.user_id
+
+    </select>
+    <select id="getanything2" resultType="com.health.pojo.Patient">
+        select * from t_patient p,test_dementia s where p.user_id = s.user_id
+    </select>
+
+    <select id="getanything3" resultType="com.health.pojo.Patient">
+        select * from t_patient p,test_osteoporosis s where p.user_id = s.user_id
+    </select>
+    <select id="getanything4" resultType="com.health.pojo.Patient">
+        select * from t_patient p,test_frailty s where p.user_id = s.user_id
+    </select>
+
+    <select id="getanything5" resultType="com.health.pojo.Patient">
+        select * from t_patient p,table_malnutrition s where p.user_id = s.user_id
     </select>
 
     <select id="getuserog" resultType="com.health.pojo.User">
@@ -168,8 +181,7 @@
     </select>
 
     <select id="sarcopeniasum"  resultType="java.lang.Integer">
-        SELECT count(*) FROM
-            test_sarcopenia
+        SELECT count(*) FROM test_sarcopenia
     </select>
 
 </mapper>

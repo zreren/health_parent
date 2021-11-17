@@ -7,7 +7,6 @@ public class Sarcopenia implements Serializable {
     private String user_id;//项目编码
     private String organization;//项目编码
     private String user_name;//项目名称
-    private Integer user_gender;//适用性别
     private Integer user_age;//适用年龄（范围），例如：20-50
     private Integer user_height;//价格
     private Integer user_resistance;//检查项类型，分为检查和检验两种类型
@@ -16,7 +15,7 @@ public class Sarcopenia implements Serializable {
     private Integer fistwalk;//项目说明
     private Integer secondwalk;//注意事项
     private String filetime;//注意事项
-    private boolean sarcopenia;
+    private String sarcopenia;
     //关联属性
     private Set<User> user;
 
@@ -45,13 +44,6 @@ public class Sarcopenia implements Serializable {
         this.user_name = user_name;
     }
 
-    public Integer getUser_gender() {
-        return user_gender;
-    }
-
-    public void setUser_gender(Integer user_gender) {
-        this.user_gender = user_gender;
-    }
 
     public Integer getUser_age() {
         return user_age;
@@ -99,10 +91,10 @@ public class Sarcopenia implements Serializable {
     }
     public void setSecondwalk(Integer secondwalk) { this.secondwalk = secondwalk; }
 
-    public boolean getSarcopenia() {
+    public String getSarcopenia() {
         return sarcopenia;
     }
-    public void setSarcopenia(boolean sarcopenia) { this.sarcopenia = sarcopenia; }
+    public void setSarcopenia(String sarcopenia) { this.sarcopenia = sarcopenia; }
 
 }
 

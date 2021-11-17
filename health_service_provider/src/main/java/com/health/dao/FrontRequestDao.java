@@ -20,6 +20,10 @@ public interface FrontRequestDao {
     public void sarcopeniasum();
     public Patient getuser(String user_id);
     public Patient getanything(String user_id);
+    public Patient getanything2(String user_id);
+    public Patient getanything3(String user_id);
+    public Patient getanything4(String user_id);
+    public Patient getanything5(String user_id);
     public User getuserog(String user_name);
     public User getexit(String user_id);
 

@@ -45,10 +45,10 @@ public class Frailty implements Serializable {
         this.score = score;
     }
 
-    public String getDementia() {
+    public String getFrailty() {
         return frailty;
     }
-    public void setDementia(String frailty) {
+    public void setFrailty(String frailty) {
         this.frailty = frailty;
     }
 

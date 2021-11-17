@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Osteoporosis implements Serializable {
     private String user_id;//项目编码
-    private int osteoporosis;
+    private String osteoporosis;
     private String user_name;//项目名称
     private Integer user_weight;//适用性别
     private Integer user_height;//价格
@@ -23,10 +23,10 @@ public class Osteoporosis implements Serializable {
     }
 
 
-    public int getDementia() {
+    public String getOsteoporosis() {
         return osteoporosis;
     }
-    public void setDementia(int osteoporosis) {
+    public void setOsteoporosis(String osteoporosis) {
         this.osteoporosis = osteoporosis;
     }
 

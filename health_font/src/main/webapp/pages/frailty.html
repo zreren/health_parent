@@ -342,7 +342,7 @@
                     this.userinfo.organization=this.organization
                     var date=new Date();
                     this.form.filetime = date.toLocaleDateString();
-                    axios.post("/front/frailtyadd.do",this.form).then((response) => {
+                    axios.post("/front/fraiadd.do",this.form).then((response) => {
                         if(response.data.flag){
                             //登录成功,跳转到index.html
                             this.notifytype = 'success';
@@ -376,7 +376,7 @@
                     this.userinfo.organization=this.organization
                     var date=new Date();
                     this.form.filetime = date.toLocaleDateString();
-                    axios.post("/front/frailtyadd.do",this.form).then((response) => {
+                    axios.post("/front/fraiadd.do",this.form).then((response) => {
                         if(response.data.flag){
                             //登录成功,跳转到index.html
                             this.notifytype = 'success';

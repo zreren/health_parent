@@ -13,6 +13,7 @@
     <!-- js -->
     <script src="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/antui.js"></script>
     <LINK REL="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+    <LINK REL="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/icon/page-result-busy.css">
 </head>
 <style>
     body {
@@ -59,19 +60,7 @@
     <van-empty image="network" description="描述文字" />
     <!-- 搜索提示 -->
     <van-empty image="search" description="描述文字" />
-    <div class="am-card">
-    <div class="am-card-item">
-        <div class="am-card-minfo">
-            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
 
-            </div>
-            <div class="am-card-content">
-                <div class="am-card-title">查詢用戶档案</div>
-
-            </div>
-        </div>
-    </div>
-    </div>
     <van-form @submit="onSubmit">
         <van-cell-group>
 
@@ -96,6 +85,135 @@
         </van-cell-group>
     </van-form>
 
+    <div class="am-card">
+        <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
+        <div class="am-card-body">
+
+                <div class="am-card-item">
+                    <div class="am-card-minfo">
+                        <div class="am-card-thumb" style="border-radius: 10px">
+
+                            <img src="../img/searchicon.png" />
+
+                        </div>
+                        <div class="am-card-content">
+                            <div class="am-card-title">查詢用戶档案</div>
+                    </div>
+
+                </div>
+
+                    <div class="am-list am-list-users">
+                        <div class="am-list-body">
+                            <div class="am-list-item">
+                                <div class="am-list-thumb"><img src="https://zos.alipayobjects.com/rmsportal/wMkOIiXzNqrSFSWYjDNe.png" alt=""></div>
+                                <div class="am-list-content">
+                                    <div class="am-list-title am-list-cell-twocolumn">
+                                        <div class="am-list-title">{{userinfo.user_name}}</div>
+                                        <div class="am-list-right-brief">{{form.filetime}}</div>
+                                    </div>
+                                    <div class="am-list-brief">{{userinfo.user_address}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+        </div></div>
+        <div class="contentBox">
+            <div class="am-card">
+                <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
+                <div class="am-card-body">
+
+
+                    <a href="filedetail-sa.html">
+                        <div class="am-card-item">
+                            <div class="am-card-minfo">
+                                <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+                                </div>
+                                <div class="am-card-content">
+                                    <div class="am-card-title">肌少症</div>
+                                    <div class="am-card-subtitle">情況：{{form.sarcopenia}}</div>
+                                </div>
+                                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                            </div>
+                            <div class="am-card-footnote" style="color: orange">
+
+
+                            </div>
+                        </div>
+                    </a>
+                                    <div class="am-card-item">
+                                        <div class="am-card-minfo">
+                                            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+                                            </div>
+                                            <div class="am-card-content">
+                                                <div class="am-card-title">衰弱症</div>
+                                                <div class="am-card-subtitle">情況：{{form4.frailty}}</div>
+                                            </div>
+                                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                                        </div>
+                                        <div class="am-card-footnote" style="color: orange">
+
+                                        </div>
+                                    </div>
+                    <a href="filedetail-os.html">
+                        <div class="am-card-item">
+                            <div class="am-card-minfo">
+                                <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+                                </div>
+                                <div class="am-card-content" >
+                                    <div class="am-card-title">骨質疏鬆</div>
+                                    <div class="am-card-subtitle">情況：{{form3.osteoporosis}}</div>
+                                </div>
+                                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                            </div>
+                            <div class="am-card-footnote" style="color: orange">
+
+                            </div>
+                        </div>
+                    </a>
+                                    <div class="am-card-item">
+                                        <div class="am-card-minfo">
+                                            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+                                            </div>
+                                            <div class="am-card-content">
+                                                <div class="am-card-title">營養失調</div>
+                                                <div class="am-card-subtitle">情況：{{form5.malnutrition}}</div>
+                                            </div>
+                                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                                        </div>
+                                        <div class="am-card-footnote" style="color: orange">
+
+                                        </div>
+
+                                    </div>
+                    <a HREF="filedetail-de.html">
+                        <div class="am-card-item">
+                            <div class="am-card-minfo">
+                                <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+                                </div>
+                                <div class="am-card-content">
+                                    <div class="am-card-title">失智症</div>
+                                    <div class="am-card-subtitle">情況：{{form2.dementia}}</div>
+                                </div>
+                                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+                            </div>
+                            <div class="am-card-footnote" style="color: orange">
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
     <van-divider>技術提供：中華醫事科技大學</van-divider>
 
 
@@ -136,6 +254,24 @@
                     score: '',
                     malnutrition:'',
                     filetime:'',
+                },
+                form2: {
+                    user_id: '',
+                    score: '',
+                    malnutrition:'',
+                    filetime:'',
+                },
+                form3: {
+                    user_id: '',
+                    score: '',
+                    malnutrition:'',
+                    filetime:'',
+                },
+                form4:{
+
+                },
+                form5:{
+
                 },
                 userinfo:{
                     user_name:'',
@@ -230,15 +366,11 @@
                             this.visual = 'false';
                             this.notifytype = 'success';
                             this.msg = '查询用户档案成功'
-
-                            axios.post("/front/getanything.do?user_id="+this.form.user_id).then((response) => {
-                                if(response.data.flag){
-
-                                }else{
-
-                                }
-                            })
-
+                            this.getanything();
+                            this.getanything2();
+                            this.getanything3();
+                            this.getanything4();
+                            this.getanything5();
                         }else{
                             this.visual = '';
                             this.notifytype = 'danger';
@@ -255,6 +387,53 @@
                 });
 
 
+            },
+            getanything(){
+                axios.post("/front/getanything.do?user_id="+this.form.user_id).then((response) => {
+                    if(response.data.flag){
+                        this.form = response.data.data;
+                    }else{
+
+                    }
+                })
+
+            },
+            getanything2(){
+                axios.post("/front/getanything2.do?user_id="+this.form.user_id).then((response2) => {
+                    if(response2.data.flag){
+                        this.form2 = response2.data.data;
+                    }else{
+
+                    }
+                })
+
+            },
+            getanything3(){
+                axios.post("/front/getanything3.do?user_id="+this.form.user_id).then((response3) => {
+                    if(response3.data.flag){
+                        this.form3 = response3.data.data;
+                    }else{
+
+                    }
+                })
+            },
+            getanything4(){
+                axios.post("/front/getanything4.do?user_id="+this.form.user_id).then((response3) => {
+                    if(response3.data.flag){
+                        this.form4 = response3.data.data;
+                    }else{
+
+                    }
+                })
+            },
+            getanything5(){
+                axios.post("/front/getanything5.do?user_id="+this.form.user_id).then((response3) => {
+                    if(response3.data.flag){
+                        this.form5 = response3.data.data;
+                    }else{
+
+                    }
+                })
             },
             changeway2(){
                 this.queryvisual = 'false';

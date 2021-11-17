@@ -10,7 +10,7 @@ public class Patient implements Serializable {
     private Integer user_gender;
     private int user_height;
     private int user_weight;
-    private int osteoporosis;
+    private String osteoporosis;
     private String user_address;
     private String organization;
     private String filetime;//注意事项
@@ -19,8 +19,7 @@ public class Patient implements Serializable {
     private Integer secondgrip;//注意事项
     private Integer fistwalk;//项目说明
     private Integer secondwalk;//注意事项
-    private boolean sarcopenia;
-    private Set<User> user;
+    private String sarcopenia;
     private int score;
     private String malnutrition;
     private String education;
@@ -63,10 +62,10 @@ public class Patient implements Serializable {
     public void setScore(int score) {
         this.score = score;
     }
-    public int getOsteoporosis() {
+    public String getOsteoporosis() {
         return osteoporosis;
     }
-    public void setOsteoporosis(int osteoporosis) { this.osteoporosis = osteoporosis;}
+    public void setOsteoporosis(String osteoporosis) { this.osteoporosis = osteoporosis;}
 
     public int getUser_weight() {
         return user_weight;
@@ -139,9 +138,9 @@ public class Patient implements Serializable {
     }
     public void setSecondwalk(Integer secondwalk) { this.secondwalk = secondwalk; }
 
-    public boolean getSarcopenia() {
+    public String getSarcopenia() {
         return sarcopenia;
     }
-    public void setSarcopenia(boolean sarcopenia) { this.sarcopenia = sarcopenia; }
+    public void setSarcopenia(String sarcopenia) { this.sarcopenia = sarcopenia; }
 
 }

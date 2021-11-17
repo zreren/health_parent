@@ -98,6 +98,15 @@ public class FrontRequestController {
         }
         return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
     }
+    @RequestMapping("/fraiadd")
+    public Result fraiadd(@RequestBody Frailty frailty){
+        try {
+            frontRequestService.fraiadd(frailty);
+        }catch (Exception e){
+            return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
+        }
+        return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
 
     @RequestMapping("/getuser")
     public Result getuser(String user_id){
@@ -114,6 +123,50 @@ public class FrontRequestController {
     public Result getanything(String user_id){
         try{
             Patient patient = frontRequestService.getanything(user_id);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+    @RequestMapping("/getanything2")
+    public Result getanything2(String user_id){
+        try{
+            Patient patient = frontRequestService.getanything2(user_id);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+    @RequestMapping("/getanything3")
+    public Result getanything3(String user_id){
+        try{
+            Patient patient = frontRequestService.getanything3(user_id);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+    @RequestMapping("/getanything4")
+    public Result getanything4(String user_id){
+        try{
+            Patient patient = frontRequestService.getanything4(user_id);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+    @RequestMapping("/getanything5")
+    public Result getanything5(String user_id){
+        try{
+            Patient patient = frontRequestService.getanything5(user_id);
             return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
         }catch (Exception e){
             e.printStackTrace();
