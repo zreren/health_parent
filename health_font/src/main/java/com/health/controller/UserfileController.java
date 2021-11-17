@@ -69,6 +69,18 @@ public class UserfileController {
         return countSatrue;
     }
 
+    @RequestMapping("/countde")
+    public long countde(){
+        long countde =userfileService.countde();
+        return countde;
+    }
+
+    @RequestMapping("/countdetrue")
+    public long countdetrue(){
+        long countdetrue =userfileService.countdetrue();
+        return countdetrue;
+    }
+
 //
 //    @RequestMapping("/edit")
 //    public Result edit(@RequestBody Patient patient){

@@ -2,8 +2,7 @@
 <html>
 <head>
     <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <META http-equiv=Content-Type content="text/html;charset=utf-8">
     <title>銀髮健康監測平台</title>
     <meta name="description" content="銀髮健康監測平台">
     <meta name="keywords" content="銀髮健康監測平台">
@@ -71,7 +70,7 @@
                     </el-menu>
                 </el-aside>
                 <el-container>
-                    <iframe name="right" class="el-main" src="statistics.html" width="100%" height="580px" frameborder="0"></iframe>
+                    <iframe name="right" class="el-main" src="statistics.html" width="100%" height="100%" frameborder="0"></iframe>
                 </el-container>
             </el-container>
         </el-container>
@@ -85,6 +84,7 @@
     new Vue({
         el: '#app',
         data:{
+            organization:'',
             username:null,//用户名
             menuList:[
                 {
@@ -132,13 +132,13 @@
                         {
                             "path": "/3-1",
                             "title": "文章管理",
-                            "linkUrl":"ordersettinglist.html",
+                            "linkUrl":"article.html",
                             "children":[]
                         },
                         {
                             "path": "/3-2",
                             "title": "營養食譜",
-                            "linkUrl":"ordersetting.html",
+                            "linkUrl":"food.html",
                             "children":[]
                         },
                         // {
@@ -172,22 +172,22 @@
                             "linkUrl":"musle.html",
                             "children":[]
                         },
-                        {
-                            "path": "/4-2",
-                            "title": "衰弱症",
-                            "linkUrl":"Frailty.html",
-                            "children":[]
-                        },
+                        // {
+                        //     "path": "/4-2",
+                        //     "title": "衰弱症",
+                        //     "linkUrl":"Frailty.html",
+                        //     "children":[]
+                        // },
                         {
                             "path": "/4-3",
                             "title": "骨質疏鬆",
-                            "linkUrl":"fracture.html",
+                            "linkUrl":"osteoporosis.html",
                             "children":[]
                         },
                         {
                             "path": "/4-4",
                             "title": "營養失調",
-                            "linkUrl":"Disorder.html",
+                            "linkUrl":"malnutrition.html",
                             "children":[]
                         },
                         {
@@ -214,10 +214,14 @@
             ]
         },
         created(){
-            //发送请求获取当前登录用户的用户名
+            //发送请求获取当前登录用户的用户名、
             axios.get('/user/getUsername.do').then((response)=>{
                 this.username = response.data.data;
+                axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                    this.organization = response.data.data.organization;
+                });
             });
+
         },
     });
     $(function() {

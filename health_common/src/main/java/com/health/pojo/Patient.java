@@ -7,17 +7,71 @@ public class Patient implements Serializable {
     private String user_id;
     private String user_name;
     private int user_age;
-    private int user_gender;
+    private Integer user_gender;
+    private int user_height;
+    private int user_weight;
+    private int osteoporosis;
     private String user_address;
     private String organization;
+    private String filetime;//注意事项
+    private Integer user_resistance;//检查项类型，分为检查和检验两种类型
+    private Integer fistgrip;//项目说明
+    private Integer secondgrip;//注意事项
+    private Integer fistwalk;//项目说明
+    private Integer secondwalk;//注意事项
+    private boolean sarcopenia;
+    private Set<User> user;
+    private int score;
+    private String malnutrition;
+    private String education;
+    private String frailty;
+    private String dementia;
 
-    private Set<Patient> patients;
+    public String getMalnutrition() {
+        return malnutrition;
+    }
+    public void setMalnutrition(String malnutrition) { this.malnutrition = malnutrition;}
 
+    public String getEducation() {
+        return education;
+    }
+    public void setEducation(String education) { this.education = education;}
+    public String getFrailty() {
+        return frailty;
+    }
+    public void setFrailty(String frailty) { this.frailty = frailty;}
+    public String getDementia() {
+        return dementia;
+    }
+    public void setDementia(String dementia) { this.dementia = dementia;}
+
+    public void setFiletime(String filetime) {this.filetime = filetime; }
+    public String getFiletime() { return filetime; }
 
     public String getUser_id() {
         return user_id;
     }
     public void setUser_id(String user_id) { this.user_id = user_id;}
+
+    public int getUser_height() {
+        return user_height;
+    }
+    public void setUser_height(int user_height) { this.user_height = user_height;}
+    public int getScore() {
+        return score;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+    public int getOsteoporosis() {
+        return osteoporosis;
+    }
+    public void setOsteoporosis(int osteoporosis) { this.osteoporosis = osteoporosis;}
+
+    public int getUser_weight() {
+        return user_weight;
+    }
+    public void setUser_weight(int user_weight) { this.user_weight = user_weight;}
 
     public String getUser_name() {
         return user_name;
@@ -45,12 +99,49 @@ public class Patient implements Serializable {
         this.user_address = user_address;
     }
 
-    public int getUser_gender() {
+    public Integer getUser_gender() {
         return user_gender;
     }
-    public void setUser_gender(int user_gender) {
+    public void setUser_gender(Integer user_gender) {
         this.user_gender= user_gender;
     }
+    public Integer getUser_resistance() {
+        return user_resistance;
+    }
 
+    public void setUser_resistance(Integer user_resistance) {
+        this.user_resistance = user_resistance;
+    }
+
+    public Integer  getFistgrip() {
+        return fistgrip;
+    }
+
+    public void setFistgrip(Integer fistgrip) {
+        this.fistgrip = fistgrip;
+    }
+
+    public Integer getSecondgrip() {
+        return secondgrip;
+    }
+
+    public void setSecondgrip(Integer secondgrip) {
+        this.secondgrip = secondgrip;
+    }
+
+    public Integer getFistwalk() {
+        return fistwalk;
+    }
+    public void setFistwalk(Integer fistwalk) { this.fistwalk = fistwalk; }
+
+    public Integer getSecondwalk() {
+        return secondwalk;
+    }
+    public void setSecondwalk(Integer secondwalk) { this.secondwalk = secondwalk; }
+
+    public boolean getSarcopenia() {
+        return sarcopenia;
+    }
+    public void setSarcopenia(boolean sarcopenia) { this.sarcopenia = sarcopenia; }
 
 }

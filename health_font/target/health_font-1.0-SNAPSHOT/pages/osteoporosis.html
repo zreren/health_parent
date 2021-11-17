@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="big5">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
     <title>銀髮族健康檢測平台</title>
@@ -41,7 +41,7 @@
 <body>
 <div id="app">
     <van-nav-bar
-            title="銀髮族健康監測-骨質疏鬆採集"
+            title="銀髮族健康監測-骨質疏鬆收集"
             left-text="返回"
             @click-left="onClickLeft"
             left-arrow
@@ -58,9 +58,9 @@
     <p style="margin-left: 10px">用戶檔案</p>
     <van-form @submit="onSubmit">
         <van-cell-group class="van">
-            <van-cell title="檔案調取方式" class="van">
+            <van-cell title="檔案來源" class="van">
                 <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
-                    <van-radio name="1" @click="changeway1" class="van">從數據庫中調取</van-radio>
+                    <van-radio name="1" @click="changeway1" class="van">從資料庫中取得</van-radio>
                     <van-radio name="2" @click="changeway2" class="van">新建用戶檔案</van-radio>
 
                 </van-radio-group>
@@ -87,14 +87,16 @@
             </van-field>
             <van-field label="年龄" v-model="userinfo.user_age" class="van">
             </van-field>
-                <van-cell title="性別" class="van">
-                <van-radio-group v-model="userinfo.user_gender" direction="horizontal" style="display: flex;">
-                    <van-radio name="1"  class="van">男</van-radio>
-                    <van-radio name="0"  class="van">女</van-radio>
-                </van-radio-group>
-                </van-cell>
-            </van-field>
-            <van-field label="电话" v-model="userinfo.user_id" class="van">
+                <van-field name="user_gender" label="性別">
+                    <template #input>
+                        <van-radio-group v-model="userinfo.user_gender" direction="horizontal">
+                            <van-radio :name="1">男性</van-radio>
+                            <van-radio :name="0">女性</van-radio>
+                        </van-radio-group>
+                    </template>
+                </van-field>
+
+            <van-field label="電話" v-model="userinfo.user_id" class="van">
             </van-field>
                 <van-field label="住址" v-model="userinfo.user_address" class="van">
                 </van-field>
@@ -104,6 +106,12 @@
 
             <van-divider ></van-divider>
         <van-field v-model="form.user_weight" type="number" label="體重" class="van"></van-field>
+
+        <van-cell V-if="danger != ''" style="">
+            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+            <div v-if="danger === 'mid'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+        </van-cell>
         <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit" @click="onSubmit">提交表單</van-button>
         </div>
@@ -139,9 +147,14 @@
         el: '#app',
         data() {
             return {
+                message:'',
+                status:'',
+                user_name:'',
+                danger:'',
                 username:'',
                 msg:'',
                 notifytype:'',
+                danger:'',
                 password:'',
                 userinfov:'',
                 user_address:'',
@@ -157,19 +170,13 @@
                     user_age:'',
                     user_id:'',
                     user_gender: '',
+                    user_address: '',
                 },
 
                 form: {
                     user_id: '',
-                    user_height: '',
-                    user_resistance: '',
-                    user_age: '',
-                    user_gender: '',
-                    fistwalk: '',
-                    secondwalk: '',
-                    fistgrip: '',
-                    secondgrip:'',
-                    sarcopenia:'0',
+                    user_weight:0,
+                    osteoporosis:0,
                     filetime:'',
                 },
 
@@ -194,7 +201,7 @@
                     if(response.data.flag){
                         //登录成功,跳转到index.html
                         this.notifytype = 'danger';
-                        this.msg = '提交用户档案成功！'
+                        this.msg = '提交用户档案成功！';
                         this.toNotify();
                     }else{
                         //失败，提示失败信息
@@ -202,16 +209,36 @@
                     }
                 });
                 this.form.user_id = this.userinfo.user_id
-                this.form.user_age = this.userinfo.user_age
-                this.form.user_gender = this.userinfo.user_gender
                 var date=new Date();
                 this.form.filetime = date.toLocaleDateString();
                 //發送數據到骨質疏鬆檔案
+                this.bmi=(this.userinfo.user_age - this.form.user_weight)*0.2
+                // this.bmi=this.form.user_weight/Math.pow(this.form.user_height/100,2);
+                console.log(this.form.user_weight);
+                console.log(this.bmi);
+                if (this.bmi>=2 ){
+                    this.form.osteoporosis=2;
+                    this.danger='true';
+                    this.status = 'bad'
+                    this.message = '該用戶存在严重骨質疏鬆風險，請關注'
+                }else if(this.bmi<2 && this.bmi>=-1 ){
+                    this.form.osteoporosis=1;
+                    this.danger='mid';
+                    this.status = 'bad'
+                    this.message = '該用戶存在中度骨質疏鬆風險，請關注'
+                }else{
+                    this.form.osteoporosis=0;
+                    this.danger='false';
+                    this.status = 'good'
+                    this.message = '該用戶沒有骨質疏鬆，檔案已提交到數據庫'
+                }
+
                axios.post("/front/osteoporosisadd.do",this.form).then((response) => {
                     if(response.data.flag){
                         //登录成功,跳转到index.html
                         this.notifytype = 'success';
                         this.msg = '提交档案成功！'
+                        window.location.href = "result.html?message="+this.message+"&status="+this.status+"&name="+this.userinfo.user_name;
                         this.toNotify();
                     }else{
                         //失败，提示失败信息
@@ -232,6 +259,11 @@
                         if (this.organization===this.userinfov.organization){
                             this.userinfo=this.userinfov;
                             this.visual = 'false';
+                            if(this.userinfo.user_gende===1){
+                                this.user_gender="1";
+                            }else{
+                                this.user_gender="0";
+                            }
                             this.notifytype = 'success';
                             this.msg = '查询用户档案成功'
                             this.toNotify();

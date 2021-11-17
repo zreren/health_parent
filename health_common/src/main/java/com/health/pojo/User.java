@@ -10,12 +10,10 @@ import java.util.Set;
  */
 public class User implements Serializable{
     private Integer id; // 主键
-    private Date birthday; // 生日
-    private String gender; // 性别
+    private String user_gender; // 性别
     private Integer user_age; //
     private String user_name; // 用户名，唯一
     private String password; // 密码
-    private String remark; // 备注
     private String station; // 状态
     private String user_id; // 联系电话
     private String organization; // 機構
@@ -54,12 +52,12 @@ public class User implements Serializable{
 //        this.birthday = birthday;
 //    }
 
-    public String getGender() {
-        return gender;
+    public String getUser_gender() {
+        return user_gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setUser_gender(String user_gender) {
+        this.user_gender = user_gender;
     }
 
     public String getUser_name() {
@@ -78,13 +76,6 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     public String getStation() {
         return station;

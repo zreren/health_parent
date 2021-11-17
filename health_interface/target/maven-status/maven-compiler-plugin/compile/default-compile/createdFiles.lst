@@ -1,5 +1,6 @@
 com/health/service/UserfileService.class
 com/health/service/UserService.class
 com/health/service/CheckItemService.class
+com/health/service/MalnutritionService.class
 com/health/service/FrontRequestService.class
 com/health/service/SarcopeniaService.class

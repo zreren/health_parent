@@ -6,9 +6,9 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.health.pojo.Sarcopenia">
-        insert into test_Sarcopenia(user_id,user_name,user_gender,user_age,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia)
+        insert into test_Sarcopenia(user_id,user_name,user_age,user_height,user_resistance,fistgrip,secondgrip,fistwalk,secondwalk,sarcopenia)
         values
-        (#{user_id},#{user_name},#{user_gender},#{user_age},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia})
+        (#{user_id},#{user_name},#{user_age},#{user_height},#{user_resistance},#{fistgrip},#{secondgrip},#{fistwalk},#{secondwalk},#{sarcopenia})
     </insert>
     <select id="selectByCondition" parameterType="string"
             resultType="com.health.pojo.Sarcopenia">
@@ -18,19 +18,62 @@
         </if>
 
     </select>
+    <select id="articleselectByCondition"
+            resultType="com.health.pojo.Article">
+        select * from article
+        <if test="value != null and value.length > 0">
+            where title = #{value}
+        </if>
+    </select>
+
 
     <select id="demeselectByCondition" parameterType="string"
-            resultType="com.health.pojo.dementia">
+            resultType="com.health.pojo.Dementia">
         select * from test_dementia s,t_patient p where s.user_id=p.user_id
         <if test="value != null and value.length > 0">
             where user_id = #{value} or user_name = #{value}
         </if>
     </select>
 
+    <select id="fracselectByCondition" parameterType="string"
+            resultType="com.health.pojo.Patient">
+        select * from test_osteoporosis s,t_patient p where s.user_id=p.user_id
+        <if test="value != null and value.length > 0">
+            where user_id = #{value} or user_name = #{value}
+        </if>
+    </select>
 
+    <insert id="articleadd" parameterType="com.health.pojo.Article">
+        insert ignore into article(content,content_introduce,time,title)
+        values
+        (#{content},#{content_introduce},#{time},#{title})
+    </insert>
+
+    <insert id="foodadd" parameterType="com.health.pojo.Article">
+        insert ignore into foodcard(content,title,imgurl)
+        values
+        (#{content},#{title},#{imgurl})
+    </insert>
+
+    <delete id="fooddeleteById" parameterType="Integer">
+        delete from foodcard where id = #{id}
+    </delete>
 
     <delete id="deleteById" parameterType="String">
         delete from test_Sarcopenia where user_id = #{user_id}
+    </delete>
+
+    <delete id="fracdeleteById" parameterType="String">
+        delete from test_osteoporosis where user_id = #{user_id}
+    </delete>
+
+
+    <delete id="deletearticle" parameterType="String">
+        delete from article where id = #{id}
+    </delete>
+
+    <delete id="demedeleteById" parameterType="String">
+        delete from test_dementia where user_id = #{user_id}
     </delete>
     <!--根据检查项id查询中间关系表-->
 <!--    <select id="findCountByCheckItemId" resultType="long" parameterType="int">-->
@@ -38,38 +81,157 @@
 <!--    </select>-->
 
     <update id="edit" parameterType="com.health.pojo.Sarcopenia">
-        update test_Sarcopenia
+        update test_Sarcopenia s LEFT JOIN t_patient p
+        ON
+        s.user_id = p.user_id
         <set>
-            <if test="name != null">
-                user_name = #{user_name},
+            <if test="user_name != null">
+                p.user_name = #{user_name},
             </if>
-            <if test="sex != null">
-                user_gender = #{user_gender},
+            <if test="user_gender != null">
+                p.user_gender = #{user_gender},
             </if>
-            <if test="code != null">
-                code = #{code},
+            <if test="user_age != null">
+                p.user_age = #{user_age},
             </if>
-            <if test="age != null">
-                age = #{age},
+            <if test="user_height != null">
+                s.user_height = #{user_height},
             </if>
-            <if test="price != null">
-                price = #{price},
+            <if test="user_resistance != null">
+                s.user_resistance = #{user_resistance},
             </if>
-            <if test="type != null">
-                type = #{type},
+            <if test="fistgrip != null">
+                s.fistgrip = #{fistgrip},
             </if>
-            <if test="attention != null">
-                attention = #{attention},
+            <if test="secondgrip != null">
+                s.secondgrip = #{secondgrip},
             </if>
-            <if test="remark != null">
-                remark = #{remark},
+            <if test="fistwalk != null">
+                s.fistwalk = #{fistwalk},
+            </if>
+            <if test="secondwalk != null">
+                s.secondwalk = #{secondwalk}
+            </if>
+        </set>
+        where s.user_id = #{user_id}
+    </update>
+    <update id="demeedit" parameterType="com.health.pojo.Dementia">
+        update test_dementia m LEFT JOIN t_patient p
+        ON
+        m.user_id = p.user_id
+        <set>
+            <if test="user_name != null">
+                p.user_name = #{user_name},
+            </if>
+            <if test="user_age != null">
+                p.user_age = #{user_age},
+            </if>
+            <if test="user_gender != null">
+                p.user_gender = #{user_gender},
+            </if>
+            <if test="score != null">
+                m.score = #{score},
+            </if>
+            <if test="dementia != null">
+                m.dementia = #{dementia},
+            </if>
+            <if test="education != null">
+                m.education = #{education},
+            </if>
+            <if test="filetime != null">
+                m.filetime = #{filetime},
+            </if>
+        </set>
+        where m.user_id = #{user_id}
+    </update>
+    <update id="fraiedit" parameterType="com.health.pojo.Frailty">
+        update test_frailty m LEFT JOIN t_patient p
+        ON
+        m.user_id = p.user_id
+        <set>
+            <if test="user_name != null">
+                p.user_name = #{user_name},
+            </if>
+            <if test="user_age != null">
+                p.user_age = #{user_age},
+            </if>
+            <if test="user_gender != null">
+                p.user_gender = #{user_gender},
+            </if>
+            <if test="score != null">
+                m.score = #{score},
+            </if>
+            <if test="dementia != null">
+                m.frailty = #{frailty},
+            </if>
+            <if test="filetime != null">
+                m.filetime = #{filetime},
+            </if>
+        </set>
+        where m.user_id = #{user_id}
+    </update>
+    <update id="foodeditById" parameterType="com.health.pojo.Article">
+        update foodcard
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content_introduce != null">
+                imgurl = #{imgurl},
             </if>
         </set>
         where id = #{id}
     </update>
+    <update id="fracedit" parameterType="com.health.pojo.Patient">
+        update test_osteoporosis m LEFT JOIN t_patient p
+        ON
+        m.user_id = p.user_id
+        <set>
+            <if test="user_weight != null">
+                m.user_weight = #{user_weight},
+            </if>
+            <if test="osteoporosis != null">
+                m.osteoporosis = #{osteoporosis},
+            </if>
+            <if test="filetime != null">
+                m.filetime = #{filetime},
+            </if>
+            <if test="user_name != null">
+                p.user_name = #{user_name},
+            </if>
+            <if test="user_age != null">
+                p.user_age = #{user_age},
+            </if>
+            <if test="user_gender != null">
+                p.user_gender = #{user_gender},
+            </if>
+        </set>
+        where m.user_id = #{user_id}
+    </update>
 
     <select id="findById" parameterType="int" resultType="com.health.pojo.Sarcopenia">
         select * from test_Sarcopenia where id = #{id}
+    </select>
+    <select id="fraifindById" parameterType="String" resultType="com.health.pojo.Frailty">
+        select * from test_frailty where user_id = #{user_id}
+    </select>
+    <select id="demefindById" parameterType="String" resultType="com.health.pojo.Dementia">
+        select * from test_dementia s,t_patient p where s.user_id=#{user_id} and p.user_id =#{user_id}
+    </select>
+    <select id="fracfindById" parameterType="String" resultType="com.health.pojo.Patient">
+        select * from test_osteoporosis s,t_patient p where s.user_id=#{user_id} and p.user_id =#{user_id}
+    </select>
+    <select id="articlefindById" parameterType="int" resultType="com.health.pojo.Article">
+        select * from article where id = #{id}
+    </select>
+    <select id="foodfindById" parameterType="int" resultType="com.health.pojo.Article">
+        select * from foodcard where id = #{id}
+    </select>
+    <select id="safindById" parameterType="string" resultType="com.health.pojo.Sarcopenia">
+        select * from test_Sarcopenia s,t_patient p where s.user_id=#{user_id} and p.user_id =#{user_id}
     </select>
 
 </mapper>

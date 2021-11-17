@@ -6,9 +6,7 @@ import com.health.constant.MessageConstant;
 import com.health.entity.PageResult;
 import com.health.entity.QueryPageBean;
 import com.health.entity.Result;
-import com.health.pojo.Patient;
-import com.health.pojo.Sarcopenia;
-import com.health.pojo.User;
+import com.health.pojo.*;
 import com.health.service.FrontRequestService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +23,39 @@ public class FrontRequestController {
         try {
             frontRequestService.sarcopeniaadd(sarcopenia);
         }catch (Exception e){
+            return new Result(false, "失败");
+        }
+        return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+    @RequestMapping("/frailtyadd")
+    public Result fraiadd(@RequestBody Frailty frailty){
+        try {
+            frontRequestService.fraiadd(frailty);
+        }catch (Exception e){
+            return new Result(false, "失败");
+        }
+        return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+
+
+    @RequestMapping("/articleeditById")
+    public Result articleeditById(@RequestBody Article article){
+        try {
+            frontRequestService.articleeditById(article);
+        }catch (Exception e){
             return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
         }
         return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
     }
 
+    @RequestMapping("/foodfindPage")
+    public PageResult foodfindPage(@RequestBody QueryPageBean queryPageBean){
+        PageResult pageResult = frontRequestService.foodpageQuery(
+                queryPageBean.getCurrentPage(),
+                queryPageBean.getPageSize(),
+                queryPageBean.getQueryString());
+        return pageResult;
+    }
 
 
     @RequestMapping("/getuser")
@@ -37,6 +63,18 @@ public class FrontRequestController {
         try{
             Patient patient = frontRequestService.getuser(user_id);
             return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+
+    @RequestMapping("/getuserog")
+    public Result getuserbyname(String user_name){
+        try{
+            User user = frontRequestService.getuserog(user_name);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,user);
         }catch (Exception e){
             e.printStackTrace();
             //服务调用失败

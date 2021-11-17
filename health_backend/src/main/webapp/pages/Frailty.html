@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- 页面meta -->
-        <meta charset="utf-8">
+        <META http-equiv=Content-Type content="text/html;charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>银发健康监测平台</title>
         <meta name="description" content="银发健康监测平台">
@@ -33,7 +33,7 @@
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
 <!--                        <el-table-column prop="id" type="id" align="center" label="序号"></el-table-column>-->
-                        <el-table-column prop="user_id" label="用戶ID" align="center"></el-table-column>
+                        <el-table-column prop="user_id" label="用戶电话" align="center"></el-table-column>
                         <el-table-column prop="user_name" label="用戶姓名" align="center"></el-table-column>
                         <el-table-column label="性别" align="center">
                             <template slot-scope="scope">
@@ -41,8 +41,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="user_age" label="年齡" align="center"></el-table-column>
-                        <el-table-column prop="user_height" label="身高" align="center"></el-table-column>
-                        <el-table-column prop="user_score" label="问卷得分" align="center"></el-table-column>
+                        <el-table-column prop="score" label="问卷得分" align="center"></el-table-column>
                         <el-table-column label="是否有衰弱症" align="center">
                             <template slot-scope="scope">
                                 <span>{{ scope.row.sarcopenia == '0' ? '沒有' : scope.row.sarcopenia == '1' ? '有':'有'}}</span>
@@ -155,73 +154,49 @@
                             <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="用戶编码" prop="code">
-                                            <el-input v-model="formData.code"/>
+                                        <el-form-item label="用户电话" prop="user_Id">
+                                            <el-input v-model="formData.user_Id"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="用戶姓名" prop="name">
-                                            <el-input v-model="formData.name"/>
+                                        <el-form-item label="用戶姓名" prop="user_name">
+                                            <el-input v-model="formData.user_name"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="性别">
-                                            <el-select v-model="formData.sex">
-                                                <el-option label="不限" value="0"></el-option>
-                                                <el-option label="男" value="1"></el-option>
-                                                <el-option label="女" value="2"></el-option>
+                                            <el-select v-model="formData.user_gender">
+                                                <el-option label="男" :value="1"></el-option>
+                                                <el-option label="女" :value="0"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item label="年龄">
-                                            <el-input v-model="formData.age"/>
+                                            <el-input v-model="formData.user_age"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="身高">
-                                            <el-input v-model="formData.height"/>
+                                        <el-form-item label="衰弱症">
+                                            <el-input v-model="formData.frailty"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="電阻">
-                                            <el-input v-model="formData.resistance"/>
+                                        <el-form-item label="得分">
+                                            <el-input v-model="formData.score"/>
                                         </el-form-item>
                                     </el-col>
 
                                 </el-row>
-                                <el-row>
-                                    <el-col :span="12">
-                                        <el-form-item label="第一次握力">
-                                            <el-input v-model="formData.fistgrip"/>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-form-item label="第二次握力">
-                                            <el-input v-model="formData.secondgrip"/>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
-                                <el-row>
-                                    <el-col :span="12">
-                                        <el-form-item label="第一次步行速度">
-                                            <el-input v-model="formData.fistwalk"/>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-form-item label="第二次步行速度">
-                                            <el-input v-model="formData.secondwalk"/>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
+
                                 <el-row>
                                     <el-col :span="24">
                                         <el-form-item label="探訪時間">
-                                            <el-input v-model="formData.attention" type="textarea"></el-input>
+                                            <el-input v-model="formData.filetime" ></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>

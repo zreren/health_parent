@@ -3,15 +3,10 @@ package com.health.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.health.dao.CheckItemDao;
 import com.health.dao.UserfileServiceDao;
 import com.health.entity.PageResult;
-import com.health.pojo.CheckItem;
 import com.health.pojo.Patient;
 import com.health.pojo.User;
-import com.health.pojo.dementia;
-import com.health.service.SarcopeniaService;
-import com.health.service.UserService;
 import com.health.service.UserfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +28,21 @@ public class UserfileServiceImpl implements UserfileService{
         Page<Patient> page = userfileServiceDao.selectByCondition(queryString);
         return new PageResult(page.getTotal(),page.getResult());
     }
-
-    public PageResult adminpageQuery(Integer currentPage, Integer pageSize, String queryString) {
+    public PageResult pageQuerynoog(Integer currentPage, Integer pageSize, String queryString) {
         PageHelper.startPage(currentPage,pageSize);
-        Page<User> page = userfileServiceDao.adminselectByCondition(queryString);
+        Page<Patient> page = userfileServiceDao.selectByConditionnoog(queryString);
+        return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    public PageResult adminpageQuery(Integer currentPage, Integer pageSize,String organization) {
+        PageHelper.startPage(currentPage,pageSize);
+        Page<User> page = userfileServiceDao.adminselectByCondition(organization);
+        return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    public PageResult adminpageQuerynoog(Integer currentPage, Integer pageSize) {
+        PageHelper.startPage(currentPage,pageSize);
+        Page<User> page = userfileServiceDao.adminselectByConditionnoog();
         return new PageResult(page.getTotal(),page.getResult());
     }
 
@@ -48,12 +54,23 @@ public class UserfileServiceImpl implements UserfileService{
         userfileServiceDao.edit(patient);
     }
 
+    public void useredit(User user) {
+        userfileServiceDao.useredit(user);
+    }
+
     public Patient findById(Integer id) {
         return userfileServiceDao.findById(id);
+    }
+    public User adminfindById(String user_id) {
+        return userfileServiceDao.adminfindById(user_id);
     }
 
     public long countSa(){return userfileServiceDao.countSa();}
 
     public long countSatrue(){return userfileServiceDao.countSatrue();}
+
+    public long countde(){return userfileServiceDao.countde();}
+
+    public long countdetrue(){return userfileServiceDao.countdetrue();}
 
 }

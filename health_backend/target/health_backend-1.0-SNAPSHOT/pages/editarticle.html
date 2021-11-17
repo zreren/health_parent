@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <META http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <title>Title</title>
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="app">
+<div class="container">
+    <!-- inpput框 -->
+    <div class="imput">
+        <!-- <div class="title">
+              作者名字:
+              <el-input v-model="userName" size="mini" style="width:35vw;"></el-input>
+          </div> -->
+        <div class="title">
+
+            <el-input v-model="infoData.title" size="middle" style="width:80%;" placeholder="輸入您的文章标题"></el-input>
+            <el-button @click="handleAdd()" type="primary" style="width:20%;height=30px;margin=30px">提交更新</el-button>
+        </div>
+        <!-- <div style="display:flex">
+        <div  class="title">
+            标题内容:
+            <el-input v-model="content" size="mini" style="width:35vw;"></el-input>
+        </div>
+
+        <div  class="title">
+          文章封面:
+            <el-input v-model="img_url" size="mini" style="width:35vw;"></el-input>
+        </div>
+          </div> -->
+
+
+
+    </div>
+
+
+    <div>
+        <div id="editor">
+            <div v-html="infoData.content"></div>
+        </div>
+
+        <input type="hidden" name="v" id = "content" placeholder="内容" required="required" value="" />
+        <input type="hidden" name="v" id = "introduce" placeholder="内容" required="required" value="" />
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/i18next@21.3.3/dist/umd/i18next.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script>
+    $(function(){
+//console.log(location.search.concat());
+//manyValues();
+        $("#show").html(oneValues());
+    })
+    function oneValues(){
+        var result;
+        var url=window.location.search; //获取url中"?"符后的字串
+        if(url.indexOf("?")!=-1){
+            result = url.substr(url.indexOf("=")+1);
+        }
+        console.log(result)
+        handleEdit(result);
+        return result;
+    }
+</script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+            infoData:{
+                title:"",
+                content:"",//标题内容
+                content_introduce:"",
+                time:"",
+                id:""
+            },
+            organization:'',
+            pagination: {//分页相关模型数据
+                currentPage: 1,//当前页码
+                pageSize:10,//每页显示的记录数
+                total:0,//总记录数
+                queryString:null//查询条件
+            },
+            rules: {//校验规则
+                code: [{ required: true, message: '项目编码为必填项', trigger: 'blur' }],
+                name: [{ required: true, message: '项目名称为必填项', trigger: 'blur' }]
+            }
+        },
+        mounted(){
+
+            var editor ;
+            var E = window.wangEditor
+            editor = new E('#editor')
+            editor.config.onchange = function (newHtml) {
+                console.log('change 之后最新的 html', newHtml)
+                document.getElementById('introduce').value=editor.txt.text();
+                document.getElementById('content').value=newHtml;
+            }
+            editor.config.lang = 'en'
+            editor.i18next = window.i18next
+            editor.create();
+            window.handleEdit = this.handleEdit;
+
+        },
+        methods:{
+            handleEdit (result) {
+                this.infoData.id = result
+                axios.get("/Sarcopenia/articlefindById.do?id=" + result).then((res)=>{
+                    if(res.data.flag){
+                        //设置编辑窗口属性，dialogFormVisible4Edit为true表示显示
+                        this.dialogFormVisible4Edit = true;
+                        //为模型数据设置值，基于VUE双向数据绑定回显到页面
+                        this.infoData= res.data.data;
+
+
+                    }else{
+                        this.$message.error("获取数据失败，请刷新当前页面");
+                    }
+                });
+            },
+            handleAdd () {
+                //校验表单输入项是否合法
+                var date=new Date();
+                this.infoData.time = date.toLocaleDateString();
+                this.infoData.content = document.getElementById('content').value;
+                this.infoData.content_introduce = document.getElementById('introduce').value;
+                axios.post("/front/articleeditById.do",this.infoData).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.$message({type: 'success',message: '提交檔案成功！'});
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+            },
+        }
+    })
+
+</script>
+
+</body>
+<style>
+    .container{
+        width: 80%;
+        margin: 2vh auto;
+        text-align: left;}
+    .input{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:center;}
+    .title{
+        display: flex;
+        margin: 10px;
+        padding: 10px;}
+    el-input{
+        display: block;
+        padding: 8px;
+    }
+
+</style>
+</html>

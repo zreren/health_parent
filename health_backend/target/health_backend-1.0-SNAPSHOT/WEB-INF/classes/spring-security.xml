@@ -65,7 +65,7 @@
 
     <!--配置密码加密对象-->
     <bean id="passwordEncoder"
-          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+          class="org.springframework.security.crypto.password.NoOpPasswordEncoder" />
 
     <!--认证管理器，用于处理认证操作-->
     <security:authentication-manager>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Vant CDN Demo</title>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+
+</head>
+<style>
+    body {
+        color: #333;
+        background-color: #f8f8f8;
+    }
+    p{
+        margin-left: 15px;
+        color: #3a8ee6;
+        font-size: 25px;
+    }
+    sum{
+        color: #3a8ee6;
+    }
+    .van{
+        font-size: 20px;
+    }
+    .van-radio{
+        margin: 10px;
+        font-size: 20px;
+
+    }
+    .am-card-title div{
+        font-size: 20px;
+    }
+
+
+</style>
+<body>
+<div id="app">
+    <van-nav-bar
+            title="銀髮族健康監測-衰弱症收集"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <van-cell v-bind:title="username" icon="manager-o" >來自{{organization}}</van-cell>
+    <!-- 模板 -->
+
+    <!-- 通用错误 -->
+    <van-empty image="error" description="描述文字" />
+    <!-- 网络错误 -->
+    <van-empty image="network" description="描述文字" />
+    <!-- 搜索提示 -->
+    <van-empty image="search" description="描述文字" />
+    <p style="margin-left: 10px">用戶檔案</p>
+    <van-form @submit="onSubmit">
+        <van-cell-group>
+            <van-cell title="檔案來源" class="van">
+                <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
+                    <van-radio name="1" @click="changeway1"><span>從資料庫中取得</span></van-radio>
+                    <van-radio name="2" @click="changeway2"><span>新建用戶檔案</span></van-radio>
+
+                </van-radio-group>
+            </van-cell>
+
+            <van-field
+                    v-model="form.user_id"
+                    center
+                    clearable
+                    label="手機號碼"
+                    placeholder="請輸入手機號碼"
+                    v-if="queryvisual === 'true'"
+                    class="van"
+
+            >
+                <template #button>
+                    <van-button size="small" type="primary" @click="getUser" >立即查詢</van-button>
+                </template>
+            </van-field>
+            <div v-if="visual === 'false' ">
+                <P>用戶檔案</P>
+                <van-field label="姓名" v-model="userinfo.user_name" class="van">
+                </van-field>
+                <van-field label="年龄" v-model="userinfo.user_age" class="van">
+                </van-field>
+                <van-field name="user_gender" label="性別">
+                    <template #input>
+                        <van-radio-group v-model="userinfo.user_gender" direction="horizontal">
+                            <van-radio :name="1">男性</van-radio>
+                            <van-radio :name="0">女性</van-radio>
+                        </van-radio-group>
+                    </template>
+                </van-field>
+                <van-field label="电话" v-model="userinfo.user_id" class="van">
+                </van-field>
+                <van-field label="住址" v-model="userinfo.user_address" class="van">
+                </van-field>
+            </div>
+
+
+        </van-cell-group>
+        <div class="am-card">
+        <div class="am-card-item am-card-minfo am-card-noicon">
+            <div class="am-card-content">
+                <div class="am-card-title"><DIV>請先輸入用戶資料以便為您提供題目<br> </DIV></div>
+            </div>
+            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+        </div>
+        </div>
+
+        <div class="am-card" V-if="userinfo.user_age>65">
+            <P style="color: green">65岁以上的待監測者，是否有以下症状？</P>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV>1：慣用手的最大握力：男性<26公斤，女性<19公斤，得一分<br> </DIV></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q1" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >0分</van-radio>
+                        <van-radio name="1">1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV>2：步行速度<0.8公尺/秒(即行走六公尺
+                        的時間> 7.5秒)，得1分</div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q2" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >沒有0分</van-radio>
+                        <van-radio name="1">有1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div>3：過去一年，體重減輕>5公斤，得1分</div></div>
+                    <div class="am-card-subtitle"> <van-radio-group v-model="q3" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >沒有0分</van-radio>
+                        <van-radio name="1">有1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div>4：近一週內，有三天以上時間做任何事感到費力或缺乏幹勁，得1分</div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q4" direction="horizontal" style="display: flex;">
+                        <van-radio name="1" >沒有0分</van-radio>
+                        <van-radio name="2">有1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div>5：低活動量？每週平均活動總量=2.5*A+4.5*B+6.5*C+8.5*D MET-HR<br>
+                    A為每週散步時數<BR>B為健走等低強度運動得時數<BR>C為慢跑或游泳等中強度運動得時數<br>D為劇烈運動如快跑等高強度運動得時數<br>
+                        男性<3.75MET-hr<BR>
+                        女性<2.5MET-hr。該項目得1分
+                    </div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q5" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >不符合0分</van-radio>
+                        <van-radio name="1">符合1分</van-radio>
+
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+
+        </div>
+        <div class="am-card" V-if="userinfo.user_age<65&userinfo.user_age!=''">
+            <P style="color: green">65歲以下的待監測者，是否有以下症狀？</P>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV>1：有時候莫名腿軟，走路走不快或走不遠；開罐頭困難，得一分<br> </DIV></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q1q1" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >0分</van-radio>
+                        <van-radio name="1">1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV>2：爬幾個台階樓梯，腿就費到不行</div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q2q2" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >沒有0分</van-radio>
+                        <van-radio name="1">有1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div>3：活動量偏低，體重莫名減輕，得1分</div></div>
+                    <div class="am-card-subtitle"> <van-radio-group v-model="q3q3" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >沒有0分</van-radio>
+                        <van-radio name="1">有1分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+
+
+        </div>
+        <van-cell V-if="danger != ''" style="">
+            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶營養狀況良好</div>
+            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: blue;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在輕微營養不良風險，請關注</div>
+            <div v-if="danger === 'deeper'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在严重營養不良風險，請關注</div>
+        </van-cell>
+        <div style="margin: 16px;">
+            <van-button round block type="info" native-type="submit" @click="onSubmit">提交表單</van-button>
+        </div>
+    </van-form>
+
+    <van-divider>技術提供：中華醫事科技大學</van-divider>
+
+
+
+
+
+
+</div>
+
+<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+<script>
+    // 初始化 Vue 实例
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                message:'',
+                status:'',
+                user_name:'',
+                switchChecked: false,
+                userinfoselect:'1',
+                user_id:'',
+                username: 'linkingchian',
+                password: '',
+                organization:'dgut',
+                radio:'',
+                week:0,
+                q1:0,
+                q2:0,
+                q3:0,
+                q4:0,
+                q5:0,
+                q6:0,
+                z1:0,
+                z2:0,
+                z3:0,
+                z4:0,
+                q1q1:0,
+                q2q2:0,
+                q3q3:0,
+                form: {
+                    user_id: '',
+                    score: '',
+                    frailty:'',
+                    filetime:'',
+                },
+                userinfo:{
+                    user_name:'',
+                    user_age:'',
+                    user_id:'',
+                    user_gender: '',
+                },
+                msg:'',
+                notifytype:'',
+                userinfov:'',
+                user_address:'',
+                sumcount:'',
+                value:'',
+                visual:'',
+                queryvisual:'true',
+                userinfovisual:'',
+                userinfov:{},
+                danger:'',
+            };
+        },
+        computed:{
+            week1: function () {
+                // `this` 指向 vm 实例
+                if (2.5*z1+4.5*z2+6.5*z3+8.5*z4<3.5){
+                    return 1;
+                }
+            }
+        },
+        created(){
+            //发送请求获取当前登录用户的用户名、
+            this.week=2.5*this.z1+4.5*this.z2+6.5*this.z3+8.5*this.z4;
+            axios.get('/user/getUsername.do').then((response)=>{
+                this.username = response.data.data;
+                axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                    this.organization = response.data.data.organization;
+                });
+            });
+
+
+        },
+
+        methods: {
+            onSubmit(values) {
+                axios.post("/front/addpatient.do",this.userinfo).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.notifytype = 'danger';
+                        this.msg = '提交用户档案成功！'
+                        this.toNotify();
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+                if (this.userinfo.user_age<65){
+                    console.log('小于65')
+                    this.sumcount = Number(this.q1q1)+ Number(this.q2q2)+Number(this.q3q3)
+                    //如果分数12～14，则无风险
+                    this.form.score = this.sumcount
+                    if(this.sumcount>=3){
+                        this.danger='false'
+                        this.status = 'bad'
+                        this.message = '嚴重衰弱，需要向醫生資訊'
+                        this.form.frailty = '嚴重衰弱，需要向醫生資訊'
+                    }else if(this.sumcount>=1 && this.sumcount<=2){
+                        this.danger='true'
+                        this.status = 'bad'
+                        this.message = '衰弱風險患者，建議追蹤'
+                        this.form.frailty = '衰弱風險患者，建議追蹤'
+                    }else if(this.sumcount=0){
+                        this.danger='deeper'
+                        this.status = 'good'
+                        this.message = '正常無風險'
+                        this.form.frailty = '正常無風險'
+                    }
+                    this.userinfo.organization=this.organization
+                    var date=new Date();
+                    this.form.filetime = date.toLocaleDateString();
+                    axios.post("/front/frailtyadd.do",this.form).then((response) => {
+                        if(response.data.flag){
+                            //登录成功,跳转到index.html
+                            this.notifytype = 'success';
+                            this.msg = '提交档案成功！'
+                            this.toNotify();
+                        }else{
+                            //失败，提示失败信息
+                            this.$message.error(response.data.message);
+                        }
+                    });
+                }else if (this.userinfo.user_age>=65){
+                    console.log('da于65')
+                    this.sumcount = Number(this.q1)+ Number(this.q2)+Number(this.q3)+Number(this.q4)+Number(this.q5)
+                    //如果分数12～14，则无风险
+                    this.form.score = this.sumcount
+                    if(this.sumcount>=3){
+
+                        this.status = 'bad'
+                        this.message = '嚴重衰弱，需要向醫生資訊'
+                        this.form.frailty = '嚴重衰弱，需要向醫生資訊'
+                    }else if(this.sumcount>=1 && this.sumcount<=2){
+
+                        this.status = 'bad'
+                        this.message = '衰弱風險患者，建議追蹤'
+                        this.form.frailty = '衰弱風險患者，建議追蹤'
+                    }else if(this.sumcount=0){
+                        this.status = 'good'
+                        this.message = '正常無風險'
+                        this.form.frailty = '正常無風險'
+                    }
+                    this.userinfo.organization=this.organization
+                    var date=new Date();
+                    this.form.filetime = date.toLocaleDateString();
+                    axios.post("/front/frailtyadd.do",this.form).then((response) => {
+                        if(response.data.flag){
+                            //登录成功,跳转到index.html
+                            this.notifytype = 'success';
+                            this.msg = '提交档案成功！'
+                            window.location.href = "result.html?message="+this.message+"&status="+this.status+"&name="+this.userinfo.user_name;
+                            this.toNotify();
+                        }else{
+                            //失败，提示失败信息
+                            this.$message.error(response.data.message);
+                        }
+                    });
+                }
+
+
+
+                //如果分数9-11，有营养不良的风险
+                //低于七分，进一步问卷
+
+
+
+
+
+            },
+            onClickLeft() {
+                history.go(-1)
+            },
+            getUser(){
+                axios.post("/front/getuser.do?user_id="+this.form.user_id).then((response) => {
+                    if(response.data.flag){
+                        this.useinfovisual='false';
+                        console.log(response.data.data);
+                        this.userinfov = response.data.data;
+                        if (this.organization===this.userinfov.organization){
+                            this.userinfo=this.userinfov;
+                            this.visual = 'false';
+                            this.notifytype = 'success';
+                            this.msg = '查询用户档案成功'
+                            this.toNotify();
+
+                        }else{
+                            this.visual = '';
+                            this.notifytype = 'danger';
+                            this.msg = '該用戶不屬於此機構，如有疑問請聯繫管理員'
+                            this.toNotify();
+                        }
+                    }else{
+                        //失败，提示失败信息
+                        this.visual = '';
+                        this.notifytype = 'warning';
+                        this.msg = '查询失败，请检测网络情况'
+                        this.toNotify();
+                    }
+                });
+
+
+            },
+            changeway2(){
+                this.queryvisual = 'false';
+                this.visual = 'false';
+            },
+            changeway1(){
+                this.queryvisual = 'true';
+            },
+            toNotify() {
+                this.$notify({ type: this.notifytype, message: this.msg });
+            },
+        },
+    });
+</script>
+</body>
+</html>

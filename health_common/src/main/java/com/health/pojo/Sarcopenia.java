@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class Sarcopenia implements Serializable {
-    private Integer id;//主键
     private String user_id;//项目编码
+    private String organization;//项目编码
     private String user_name;//项目名称
     private Integer user_gender;//适用性别
     private Integer user_age;//适用年龄（范围），例如：20-50
@@ -20,12 +20,13 @@ public class Sarcopenia implements Serializable {
     //关联属性
     private Set<User> user;
 
-    public Integer getId() {
-        return id;
+
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public String getUser_id() { return user_id; }

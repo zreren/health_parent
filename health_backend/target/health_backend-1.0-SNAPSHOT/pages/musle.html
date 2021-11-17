@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- 页面meta -->
-        <meta charset="utf-8">
+        <META http-equiv=Content-Type content="text/html;charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>银发健康监测平台</title>
         <meta name="description" content="银发健康监测平台">
@@ -28,8 +28,8 @@
                     <div class="filter-container">
                         <el-input placeholder="用戶編號" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
                         <el-button @click="findPage()" class="dalfBut">查詢</el-button>
-                        <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
-                        <el-button type="primary" class="el-button--danger"  @click="findPageonlytrue()">僅查看肌少症用戶</el-button>
+<!--                        <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>-->
+<!--                        <el-button type="primary" class="el-button&#45;&#45;danger"  @click="findPageonlytrue()">僅查看肌少症用戶</el-button>-->
 
                     </div>
 
@@ -49,11 +49,13 @@
                         <el-table-column prop="secondgrip" label="第二次握力" align="center"></el-table-column>
                         <el-table-column prop="fistwalk" label="第一次行走秒數" align="center"></el-table-column>
                         <el-table-column prop="secondwalk" label="第二次行走秒數" align="center"></el-table-column>
+                        <el-table-column prop="organization" label="所屬機構" align="center"></el-table-column>
                         <el-table-column label="是否有肌少症" align="center">
                             <template slot-scope="scope">
                                 <span>{{ scope.row.sarcopenia == '0' ? '沒有' : scope.row.sarcopenia == '1' ? '有':'有'}}</span>
                             </template>
                         </el-table-column>
+                        <el-table-column prop="filetime" label="探訪時間" align="center"></el-table-column>
                         <el-table-column label="操作" align="center">
                             <template slot-scope="scope">
                                 <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -74,44 +76,40 @@
                     <!-- 新增标签弹层 -->
                     <div class="add-form">
                         <el-dialog title="新增肌少症檔案" :visible.sync="dialogFormVisible">
-                            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+                            <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
+
                                     <el-col :span="12">
-                                        <el-form-item label="用戶编码" prop="code">
-                                            <el-input v-model="formData.code"/>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-form-item label="用戶姓名" prop="name">
-                                            <el-input v-model="formData.name"/>
+                                        <el-form-item label="用戶姓名" prop="user_name">
+                                            <el-input v-model="formData.user_name"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="性别">
-                                            <el-select v-model="formData.sex">
-                                                <el-option label="不限" value="0"></el-option>
-                                                <el-option label="男" value="1"></el-option>
-                                                <el-option label="女" value="2"></el-option>
+                                            <el-select v-model="formData.user_gender">
+
+                                                <el-option label="男" :value="1"></el-option>
+                                                <el-option label="女" :value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item label="年龄">
-                                            <el-input v-model="formData.age"/>
+                                            <el-input v-model="formData.user_age"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="身高">
-                                            <el-input v-model="formData.height"/>
+                                            <el-input v-model="formData.user_height"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item label="電阻">
-                                            <el-input v-model="formData.resistance"/>
+                                            <el-input v-model="formData.user_resistance"/>
                                         </el-form-item>
                                     </el-col>
 
@@ -143,7 +141,7 @@
                                 <el-row>
                                     <el-col :span="24">
                                         <el-form-item label="探訪時間">
-                                            <el-input v-model="formData.attention" type="textarea"></el-input>
+                                            <el-input v-model="formData.filetime" type="textarea"></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -160,42 +158,38 @@
                         <el-dialog title="编辑检查项" :visible.sync="dialogFormVisible4Edit">
                             <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
+
                                     <el-col :span="12">
-                                        <el-form-item label="用戶编码" prop="code">
-                                            <el-input v-model="formData.code"/>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-form-item label="用戶姓名" prop="name">
-                                            <el-input v-model="formData.name"/>
+                                        <el-form-item label="用戶姓名" prop="user_name">
+                                            <el-input v-model="formData.user_name"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="性别">
-                                            <el-select v-model="formData.sex">
-                                                <el-option label="不限" value="0"></el-option>
-                                                <el-option label="男" value="1"></el-option>
-                                                <el-option label="女" value="2"></el-option>
+                                            <el-select v-model="formData.user_gender">
+
+                                                <el-option label="男" :value="1"></el-option>
+                                                <el-option label="女" :value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item label="年龄">
-                                            <el-input v-model="formData.age"/>
+                                            <el-input v-model="formData.user_age"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="身高">
-                                            <el-input v-model="formData.height"/>
+                                            <el-input v-model="formData.user_height"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-form-item label="電阻">
-                                            <el-input v-model="formData.resistance"/>
+                                            <el-input v-model="formData.user_resistance"/>
                                         </el-form-item>
                                     </el-col>
 
@@ -227,7 +221,7 @@
                                 <el-row>
                                     <el-col :span="24">
                                         <el-form-item label="探訪時間">
-                                            <el-input v-model="formData.attention" type="textarea"></el-input>
+                                            <el-input v-model="formData.filetime" type="textarea"></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -251,6 +245,7 @@
         var vue = new Vue({
             el: '#app',
             data:{
+                organization:'',
                 pagination: {//分页相关模型数据
 					  currentPage: 1,//当前页码
 					  pageSize:10,//每页显示的记录数
@@ -268,12 +263,44 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
-                this.findPage();//vue對象初始化完成後調用分頁查詢方法
+                axios.get('/user/getUsername.do').then((response)=>{
+                    this.username = response.data.data;
+                    axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                        this.organization = response.data.data.organization;
+                        if(response.data.data.role ==='機構管理員'){
+                            this.findPage();
+                        }else if (response.data.data.role ==='超級管理員'){
+                            this.findPage();
+                        }else{
+                            this.$message.error('對不起，您無權限訪問該頁面');
+                        }
+
+
+                    });
+                });
             },
             methods: {
                 //编辑
                 handleEdit() {
                     //表单校验
+                    if(this.formData.user_gender=='0'){
+                        if (this.formData.midgrip<18 && this.formData.everywalk<0.8){
+                            this.form.sarcopenia='1';
+
+                        }else{
+                            this.form.sarcopenia='0';
+
+                        }
+                    }else if(this.formData.user_gender=='1'){
+                        if (this.formData.midgrip<28 && this.formData.everywalk<0.8){
+                            this.form.sarcopenia='1';
+
+                        }else{
+                            this.form.sarcopenia='0';
+
+                        }
+
+                    }
                     this.$refs['dataEditForm'].validate((valid)=>{
                         if(valid){
                             //表单校验通过，发送请求
@@ -334,7 +361,8 @@
                     var param = {
                         currentPage:this.pagination.currentPage,//页码
                         pageSize:this.pagination.pageSize,//每页显示的记录数
-                        queryString:this.pagination.queryString//查询条件
+                        queryString:this.pagination.queryString,//查询条件
+                        organization:this.organization
                     };
                     axios.post("/Sarcopenia/findPage.do",param).then((response)=> {
                         //为模型数据赋值，基于VUE的双向绑定展示到页面
@@ -358,7 +386,7 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
-                    axios.get("/Sarcopenia/findById.do?user_id=" + row.user_id).then((res)=>{
+                    axios.get("/Sarcopenia/safindById.do?user_id=" + row.user_id).then((res)=>{
                         if(res.data.flag){
                             //设置编辑窗口属性，dialogFormVisible4Edit为true表示显示
                             this.dialogFormVisible4Edit = true;
@@ -396,35 +424,6 @@
                         });
                     });
                 },
-            handleEdit() {
-                //表单校验
-                this.$refs['dataEditForm'].validate((valid)=>{
-                    if(valid){
-                        //表单校验通过，发送请求
-                        axios.post("/Sarcopenia/edit.do",this.formData).then((response)=> {
-                            //隐藏编辑窗口
-                            this.dialogFormVisible4Edit = false;
-                            if(response.data.flag){
-                                //编辑成功，弹出成功提示信息
-                                this.$message({
-                                    message: response.data.message,
-                                    type: 'success'
-                                });
-                            }else{
-                                //编辑失败，弹出错误提示信息
-                                this.$message.error(response.data.message);
-                            }
-                        }).finally(()=> {
-                            //重新发送请求查询分页数据
-                            this.findPage();
-                        });
-                    }else{
-                        //表单校验失败
-                        this.$message.error("表单数据校验失败");
-                        return false;
-                    }
-                });
-            },
             }
         })
     </script>

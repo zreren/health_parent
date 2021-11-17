@@ -8,7 +8,7 @@
     <script src="../plugins/vue/axios-0.18.0.js"></script>
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
-
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
 
 </head>
 <style>
@@ -25,11 +25,24 @@
     .van{
         font-size: 20px;
     }
+    .van-radio{
+        margin: 10px;
+        font-size: 20px;
+
+    }
+    .am-card-title div{
+        font-size: 20px;
+    }
+    .am-card-content .am-card-title span{
+        color: #3a8ee6;
+    }
+
+
 </style>
 <body>
 <div id="app">
     <van-nav-bar
-            title="銀髮族健康監測-營養不良採集"
+            title="銀髮族健康監測-營養不良收集"
             left-text="返回"
             @click-left="onClickLeft"
             left-arrow
@@ -46,10 +59,10 @@
     <p style="margin-left: 10px">用戶檔案</p>
     <van-form @submit="onSubmit">
         <van-cell-group>
-            <van-cell title="信息調取方式" >
+            <van-cell title="檔案來源" >
                 <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
-                    <van-radio name="1" @click="changeway1">從數據庫中調取</van-radio>
-                    <van-radio name="2" @click="changeway2">新建用戶檔案</van-radio>
+                    <van-radio name="1" @click="changeway1"><span>從資料庫中取得</span></van-radio>
+                    <van-radio name="2" @click="changeway2"><span>新建用戶檔案</span></van-radio>
 
                 </van-radio-group>
             </van-cell>
@@ -74,7 +87,13 @@
                 </van-field>
                 <van-field label="年龄" v-model="userinfo.user_age" class="van">
                 </van-field>
-                <van-field label="性别" v-model="userinfo.user_gender" class="van">
+                <van-field name="user_gender" label="性別">
+                    <template #input>
+                        <van-radio-group v-model="userinfo.user_gender" direction="horizontal">
+                            <van-radio :name="1">男性</van-radio>
+                            <van-radio :name="0">女性</van-radio>
+                        </van-radio-group>
+                    </template>
                 </van-field>
                 <van-field label="电话" v-model="userinfo.user_id" class="van">
                 </van-field>
@@ -85,187 +104,88 @@
 
         </van-cell-group>
         <P>題目</P>
-
-        <van-cell-group>
-            <van-cell title="1：過去三個月內有沒有因為食慾不振、 消化問題、咀嚼或吞嚥困難而減少食量?" class="van">
-                <van-radio-group v-model="q1" direction="horizontal" style="display: flex;">
-                    <van-radio name="0" >嚴重0</van-radio>
-                    <van-radio name="1">中度1</van-radio>
-                    <van-radio name="2">無變2</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-            <van-cell title="2：過去三個月體重下降的情況。下降超3kg 0分，不知道1分，下降小於3kg 2分，體重沒有下降 3分" class="van">
-                <van-radio-group v-model="q2" direction="horizontal" style="display: flex;">
-                    <van-radio name="0" >0</van-radio>
-                    <van-radio name="1">1</van-radio>
-                    <van-radio name="2">2</van-radio>
-                    <van-radio name="3">3</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-            <van-cell class="van" title="3：活動能力
-2分:可以外出
-1分:可以下床或離開輪椅，但不能外出
-0分:需長期臥床或坐輪椅" >
-                <van-radio-group v-model="q3" direction="horizontal" style="display: flex;">
-                    <van-radio name="0" >0</van-radio>
-                    <van-radio name="1">1</van-radio>
-                    <van-radio name="2">2</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-            <van-cell title="4：過去三個月內有沒有受到心理創傷或患上急性疾病?" >
-                <van-radio-group v-model="q4" direction="horizontal" style="display: flex;">
-                    <van-radio name="1" >有 0</van-radio>
-                    <van-radio name="2">没有 2</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-            <van-cell title="5：精神心理問題。嚴重失智或抑鬱0分，輕度失智 1分，沒有精神心理問題 2分" >
-                <van-radio-group v-model="q5" direction="horizontal" style="display: flex;">
-                    <van-radio name="1" >严重0分</van-radio>
-                    <van-radio name="2">轻度1分</van-radio>
-                    <van-radio name="2">良好2分</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-            <van-cell title="7：身體質量指數(BMI) (體重/身高2 Kg/(m2)" >
-                <van-radio-group v-model="q7" direction="horizontal" style="display: flex;">
-                    <van-radio name="1" >错误0</van-radio>
-                    <van-radio name="2">正确1</van-radio>
-                </van-radio-group>
-            </van-cell>
-            <van-divider ></van-divider>
-
-
-            <van-cell V-if="danger != ''" style="">
-                <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶健康状况较好，檔案已提交到數據庫</div>
-                <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在营养不良情况，請關注</div>
-                <div v-if="danger === 'deeper'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: #0000ff;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶營養過於不良，需要进行深入调查</div>
-            </van-cell>
-            <DIV v-if="danger === 'deeper'">
-                            <van-cell title="8：是否獨立生活(非居住於療養院或醫院)?" >
-                                <van-radio-group v-model="q8" direction="horizontal" style="display: flex;">
-                                    <van-radio name="0" >否0</van-radio>
-                                    <van-radio name="1">是1</van-radio>
-                                </van-radio-group>
-                            </van-cell>
-                            <van-divider ></van-divider>
-                <van-cell title="9：每天服用三種以上的處方藥物? ">
-                    <van-radio-group v-model="q9" direction="horizontal" style="display: flex;">
-                        <van-radio name="1" >否1</van-radio>
-                        <van-radio name="0">是0</van-radio>
-                    </van-radio-group>
-                </van-cell>
-                <!--            <van-cell title="9：現在我們在幾樓" >-->
-                <!--                <van-radio-group v-model="q9" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="10：這裡是哪一科？" >-->
-                <!--                <van-radio-group v-model="q10" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="问题11：重複這三個名稱1：藍色，悲傷，火車" >-->
-                <!--                <van-radio-group v-model="q11" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="0" >错误0</van-radio>-->
-                <!--                    <van-radio name="1">正确1</van-radio>-->
-                <!--                    <van-radio name="2">正确2</van-radio>-->
-                <!--                    <van-radio name="3">正确3</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-
-                <!--            <van-cell title="12：從100開始連續減7，一直減7直到我說停為止（每對一次一份）" style="display: flex;">-->
-                <!--                <sum>93</sum>-->
-                <!--                <van-radio-group v-model="q12">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                    <van-radio name="2">正确2</van-radio>-->
-                <!--                    <van-radio name="2">正确3</van-radio>-->
-                <!--                    <van-radio name="2">正确4</van-radio>-->
-                <!--                    <van-radio name="2">正确5</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="13：藍色，悲傷，火車（展示約五分鐘以後，說出剛剛展示的東西，沒對一次得一分，不論順序）" >-->
-                <!--                <van-radio-group v-model="q13" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="0" >错误0</van-radio>-->
-                <!--                    <van-radio name="1">正确1</van-radio>-->
-                <!--                    <van-radio name="2">正確2</van-radio>-->
-                <!--                    <van-radio name="4">正確3</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-
-                <!--            <van-cell title="14.（拿出手錶詢問）這是什麼？" >-->
-                <!--                <van-radio-group v-model="q14" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="15.（拿出鉛筆問）這是什麼？" >-->
-                <!--                <van-radio-group v-model="q15" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="16.請跟我唸一句話【白紙真正寫黑字】" >-->
-                <!--                <van-radio-group v-model="q16" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="17.請跟我唸一句話【請閉上眼睛】" >-->
-                <!--                <van-radio-group v-model="q17" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="18.請用左/右（非利手）拿這張紙（三步驟指令），對一步得一分" >-->
-                <!--                <span>1.把他折成對半</span>-->
-                <!--                <span>2.然後置於大腿上面</span>-->
-                <!--                <van-radio-group v-model="q18" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">1分</van-radio>-->
-                <!--                    <van-radio name="3">2分</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="19.請在紙上寫一句語意完整的句子（含主詞動詞且語意完整的句子）" >-->
-                <!--                <van-radio-group v-model="q19" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-divider ></van-divider>-->
-                <!--            <van-cell title="20.在旁邊畫出一個相同的圓形（兩五邊形，交一四邊形，有兩交點則給分）" >-->
-                <!--                <van-image-->
-                <!--                        width="125"-->
-                <!--                        height="75"-->
-                <!--                        src="../img/trangle.png"-->
-                <!--                ></van-image>-->
-                <!--                <van-radio-group v-model="q20" direction="horizontal" style="display: flex;">-->
-                <!--                    <van-radio name="1" >错误0</van-radio>-->
-                <!--                    <van-radio name="2">正确1</van-radio>-->
-                <!--                </van-radio-group>-->
-                <!--            </van-cell>-->
-            </DIV>
-
-        </van-cell-group>
+        <div class="am-card">
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV><span>1：過去三個月內有沒有因為食慾不振、 消化問題、咀嚼或吞嚥困難而減少食量?<br> </span></DIV></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q1" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >嚴重0</van-radio>
+                        <van-radio name="1">中度1</van-radio>
+                        <van-radio name="2">無變2</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><DIV><span>2：過去三個月體重下降的情況</span><br> <br> 下降超3kg 0分<br>不知道1分<br> 下降小於3kg 2分<br> 體重沒有下降 3分</div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q2" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >0</van-radio>
+                        <van-radio name="1">1</van-radio>
+                        <van-radio name="2">2</van-radio>
+                        <van-radio name="3">3</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div><span>3：活動能力</span><br><br>
+                        2分:可以外出<br>
+                        1分:可以下床或離開輪椅，但不能外出<br>
+                        0分:需長期臥床或坐輪椅</div></div>
+                    <div class="am-card-subtitle"> <van-radio-group v-model="q3" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >0分</van-radio>
+                        <van-radio name="1">1分</van-radio>
+                        <van-radio name="2">2分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div><span>4：過去三個月內有沒有受到心理創傷或患上急性疾病?</span></div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q4" direction="horizontal" style="display: flex;">
+                        <van-radio name="1" >有 0</van-radio>
+                        <van-radio name="2">没有 2</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div><span>5：精神心理問題。</span><br><BR>嚴重失智或抑鬱0分<BR>輕度失智 1分<BR>沒有精神心理問題 2分</div></div>
+                    <div class="am-card-subtitle"><van-radio-group v-model="q5" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >严重0分</van-radio>
+                        <van-radio name="1">轻度1分</van-radio>
+                        <van-radio name="2">良好2分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+            <div class="am-card-item am-card-minfo am-card-noicon">
+                <div class="am-card-content">
+                    <div class="am-card-title"><div><span>6：身體質量指數(BMI) (體重/身高2 Kg/(m2)</span><br><br>
+                    0分-BMI低於19<BR>
+                    1分-BMI19至低於21<BR>
+                    2分-BMI21至低於23<BR>
+                    3分-BMI23或以上
+                    </div></div>
+                    <div class="am-card-subtitle"> <van-radio-group v-model="q6" direction="horizontal" style="display: flex;">
+                        <van-radio name="0" >0分</van-radio>
+                        <van-radio name="1">1分</van-radio>
+                        <van-radio name="2" >0分</van-radio>
+                        <van-radio name="3">3分</van-radio>
+                    </van-radio-group></div>
+                </div>
+                <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
+            </div>
+        </div>
+        <van-cell V-if="danger != ''" style="">
+            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: blue;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+            <div v-if="danger === 'deeper'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
+        </van-cell>
         <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit" @click="onSubmit">提交表單</van-button>
         </div>
@@ -297,41 +217,22 @@
                 password: '',
                 organization:'dgut',
                 radio:'',
+                message:'',
+                status:'',
                 q1:0,
                 q2:0,
                 q3:0,
                 q4:0,
                 q5:0,
                 q6:0,
-                q7:0,
-                q8:0,
-                q9:0,
-                q10:0,
-                q11:0,
-                q12:0,
-                q13:'',
-                q14:'',
-                q15:'',
-                q16:'',
-                q17:'',
-                q18:'',
-                q19:'',
-                q20:'',
                 form: {
                     user_id: '',
-                    user_height: '',
-                    user_resistance: '',
-                    user_age: '',
-                    user_gender: '',
-                    fistwalk: '',
-                    secondwalk: '',
-                    fistgrip: '',
-                    secondgrip:'',
-                    sarcopenia:'0',
+                    score: '',
+                    malnutrition:'',
                     filetime:'',
                 },
                 userinfo:{
-                    user_name:'xulier',
+                    user_name:'',
                     user_age:'',
                     user_id:'',
                     user_gender: '',
@@ -363,15 +264,25 @@
 
         methods: {
             onSubmit(values) {
-                this.sumcount = Number(this.q1)+ Number(this.q2)+Number(this.q3)+Number(this.q4)+Number(this.q5)+Number(this.q6)+Number(this.q7)
+                this.sumcount = Number(this.q1)+ Number(this.q2)+Number(this.q3)+Number(this.q4)+Number(this.q5)+Number(this.q6)
                 //如果分数12～14，则无风险
-                console.log(this.sumcount)
+                this.form.score = this.sumcount
+                console.log(this.form.score)
                 if(this.sumcount>=12){
                     this.danger='false'
+                    this.form.malnutrition = '营养正常'
+                    this.status = 'good'
+                    this.message = '該用戶營養狀況良好'
                 }else if(this.sumcount>=8 && this.sumcount<=11){
                     this.danger='true'
+                    this.form.malnutrition = '轻微营养不良风险'
+                    this.status = 'bad'
+                    this.message = '該用戶存在輕微營養不良風險，請關注'
                 }else if(this.sumcount<=7){
                     this.danger='deeper'
+                    this.form.malnutrition = '营养不良'
+                    this.status = 'bad'
+                    this.message = '該用戶存在严重營養不良風險，請關注'
                 }
 
                 //如果分数9-11，有营养不良的风险
@@ -391,17 +302,15 @@
                         this.$message.error(response.data.message);
                     }
                 });
-                this.form.user_id = this.userinfo.user_id
-                this.form.user_age = this.userinfo.user_age
-                this.form.user_gender = this.userinfo.user_gender
                 var date=new Date();
                 this.form.filetime = date.toLocaleDateString();
-                axios.post("/front/sarcopeniaadd.do",this.form).then((response) => {
+                axios.post("/front/malnutritionadd.do",this.form).then((response) => {
                     if(response.data.flag){
                         //登录成功,跳转到index.html
                         this.notifytype = 'success';
                         this.msg = '提交档案成功！'
                         this.toNotify();
+                        window.location.href = "result.html?message="+this.message+"&status="+this.status+"&name="+this.userinfo.user_name;
                     }else{
                         //失败，提示失败信息
                         this.$message.error(response.data.message);
@@ -412,7 +321,6 @@
                 history.go(-1)
             },
             getUser(){
-                this.danger='false'
                 axios.post("/front/getuser.do?user_id="+this.form.user_id).then((response) => {
                     if(response.data.flag){
                         this.useinfovisual='false';

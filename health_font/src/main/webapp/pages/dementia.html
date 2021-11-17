@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="big5">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
-    <title>Vant CDN Demo</title>
-
+    <title>銀髮健康檢測平台</title>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
 
@@ -26,7 +26,7 @@
 <body>
 <div id="app">
     <van-nav-bar
-            title="銀髮族健康監測-失智症採集"
+            title="銀髮族健康監測-失智症收集"
             left-text="返回"
             @click-left="onClickLeft"
             left-arrow
@@ -42,32 +42,63 @@
         <van-empty image="search" description="描述文字" />
         <p style="margin-left: 10px">用戶檔案</p>
     <van-form @submit="onSubmit">
-    <van-cell-group>
-        <van-cell title="信息調取方式" >
-            <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
-                <van-radio name="1" >從數據庫中調取</van-radio>
-                <van-radio name="2">新建用戶檔案</van-radio>
+        <van-cell-group class="van">
+            <van-cell title="檔案來源" class="van">
+                <van-radio-group v-model="userinfoselect" direction="horizontal" style="display: flex;">
+                    <van-radio name="1" @click="changeway1" class="van">從資料庫中取得</van-radio>
+                    <van-radio name="2" @click="changeway2" class="van">新建用戶檔案</van-radio>
 
-            </van-radio-group>
-        </van-cell>
+                </van-radio-group>
+            </van-cell>
 
             <van-field
-                    v-model="user_id"
+                    v-model="form.user_id"
                     center
                     clearable
-                    label="用戶手機號碼"
+                    label="手機號碼"
                     placeholder="請輸入手機號碼"
+                    v-if="queryvisual === 'true'"
+                    class="van"
+
             >
                 <template #button>
-                    <van-button size="small" type="primary">立即查詢</van-button>
+                    <van-button size="small" type="primary" @click="getUser" >立即查詢</van-button>
                 </template>
             </van-field>
+            <div v-if="visual === 'false' ">
+                <P>用戶檔案</P>
+                <van-field label="姓名" v-model="userinfo.user_name" class="van">
+                </van-field>
+                <van-field label="年龄" v-model="userinfo.user_age" class="van">
+                </van-field>
+
+                <van-field name="user_gender" label="性別">
+                    <template #input>
+                        <van-radio-group v-model="user_gender" direction="horizontal">
+                            <van-radio :name="1">男性</van-radio>
+                            <van-radio :name="0">女性</van-radio>
+                        </van-radio-group>
+                    </template>
+                </van-field>
 
 
-    </van-cell-group>
+                <van-field label="電話" v-model="userinfo.user_id" class="van">
+                </van-field>
+                <van-field label="住址" v-model="userinfo.user_address" class="van">
+                </van-field>
+            </div>
+        </van-cell-group>
     <P>題目</P>
 
     <van-cell-group>
+        <van-cell title="教育程度" >
+            <van-radio-group v-model="educationlv" direction="horizontal" style="display: flex;">
+                <van-radio name="3">國中及以上</van-radio>
+                <van-radio name="2">國小</van-radio>
+                <van-radio name="1">未受教育</van-radio>
+            </van-radio-group>
+        </van-cell>
+        <van-divider ></van-divider>
         <van-cell title="1：今年是哪一年" >
             <van-radio-group v-model="q1" direction="horizontal" style="display: flex;">
                 <van-radio name="0">錯誤0</van-radio>
@@ -196,9 +227,9 @@
             <span>1.把他折成對半</span>
             <span>2.然後置於大腿上面</span>
             <van-radio-group v-model="q18" direction="horizontal" style="display: flex;">
-                <van-radio name="0" >錯誤0</van-radio>
-                <van-radio name="1">1分</van-radio>
-                <van-radio name="2">2分</van-radio>
+                <van-radio name=0 >錯誤0</van-radio>
+                <van-radio name=1>1分</van-radio>
+                <van-radio name=2>2分</van-radio>
             </van-radio-group>
         </van-cell>
         <van-divider ></van-divider>
@@ -222,9 +253,14 @@
                 <van-radio name="1">正確1</van-radio>
             </van-radio-group>
         </van-cell>
+        <van-cell V-if="danger != ''" style="">
+            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶認知正常，檔案已提交到數據庫</div>
+            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在認知障礙，請關注</div>
+            <div v-if="danger === 'trueplus'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在重度認知障礙！！請關注</div>
+        </van-cell>
     </van-cell-group>
     <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">提交表單</van-button>
+        <van-button round block type="info" native-type="submit" @click="onSubmit()">提交表單</van-button>
     </div>
     </van-form>
 
@@ -247,42 +283,216 @@
         el: '#app',
         data() {
             return {
+                message:'',
+                status:'',
+                user_name:'',
+                danger:'',
+                educationlv:'',
                 switchChecked: false,
                 userinfoselect:'1',
                 user_id:'',
                 username: '',
                 password: '',
+                value:'',
+                visual:'',
                 organization:'',
                 radio:'',
-                q1:'',
-                q2:'',
-                q3:'',
-                q4:'',
-                q5:'',
-                q7:'',
-                q8:'',
-                q9:'',
-                q10:'',
-                q11:'',
-                q12:'',
-                q13:'',
-                q14:'',
-                q15:'',
-                q16:'',
-                q17:'',
-                q18:'',
-                q19:'',
-                q20:'',
+                q1:0,
+                q2:0,
+                q3:0,
+                q4:0,
+                q5:0,
+                q7:0,
+                q8:0,
+                q9:0,
+                q10:0,
+                q11:0,
+                q12:0,
+                q13:0,
+                q14:0,
+                q15:0,
+                q16:0,
+                q17:0,
+                q18:0,
+                q19:0,
+                q20:0,
+                msg:'',
+                notifytype:'',
+                userinfov:'',
+                user_address:'',
+                queryvisual:'true',
+                userinfovisual:'',
+                user_gender: '',
+                userinfo:{
+                    user_address:'',
+                    user_name:'',
+                    user_age:'',
+                    user_id:'',
+                    user_gender: '',
+                    organization:'',
+                },
+
+                form: {
+                    user_id: '',
+                    education:'',
+                    score:0,
+                    dementia:'',
+                    filetime:'',
+
+                },
             };
         },
+        created(){
+            //发送请求获取当前登录用户的用户名、
+            axios.get('/user/getUsername.do').then((response)=>{
+                this.username = response.data.data;
+                axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                    this.organization = response.data.data.organization;
+                });
+            });
 
+
+
+        },
         methods: {
-            onSubmit(values) {
-                console.log('submit', values);
+            onSubmit() {
+                this.userinfo.organization=this.organization;
+                if (this.userinfo.user_id !=''){
+                    axios.post("/front/addpatient.do",this.userinfo).then((response) => {
+                        if(response.data.flag){
+                            //登录成功,跳转到index.html
+                            this.notifytype = 'danger';
+                            this.msg = '提交用户档案成功！'
+                            this.toNotify();
+                        }else{
+                            //失败，提示失败信息
+                            this.$message.error(response.data.message);
+                        }
+                    });
+                }
+
+                this.form.user_id = this.userinfo.user_id
+                this.form.user_age = this.userinfo.user_age
+                var date=new Date();
+                this.form.score=parseInt(this.q1)+parseInt(this.q2)+parseInt(this.q3)+parseInt(this.q4)+parseInt(this.q5)
+                +parseInt(this.q7)+parseInt(this.q8)+parseInt(this.q9)+parseInt(this.q10)+parseInt(this.q11)
+                    +parseInt(this.q12)+parseInt(this.q13)+parseInt(this.q14)+parseInt(this.q15)+parseInt(this.q16)+parseInt(this.q17)
+                    +parseInt(this.q18)+parseInt(this.q19)+parseInt(this.q20)
+                ;
+                console.log(this.form.score
+                );
+                if (this.educationlv==3){
+                    this.form.education='國中及以上'
+                    if (this.form.score<16){
+                        this.status = 'bad'
+                        this.message = '重度認知障礙'
+                        this.form.dementia='重度認知障礙';
+                        this.danger='trueplus';
+                    }else if (this.form.score<23){
+                        this.status = 'bad'
+                        this.message = '輕度認知障礙'
+                        this.form.dementia='輕度認知障礙';
+                        this.danger='true';
+                    }else{
+                        this.status = 'good'
+                        this.message = '認知正常'
+                        this.form.dementia='認知正常';
+                        this.danger='false';
+                    }
+
+                }else if(this.educationlv==2){
+                    this.form.education='國小'
+                    if (this.form.score<20){
+                        this.status = 'bad'
+                        this.message = '認知功能異常'
+                        this.form.dementia='認知功能異常';
+                        this.danger='true';
+                    }else{
+                        this.status = 'good'
+                        this.message = '認知正常'
+                        this.form.dementia='認知正常';
+                        this.danger='flase';
+                    }
+                }else if(this.educationlv==1){
+                    this.form.education='未受教育'
+                    if (this.form.score<15){
+                        this.status = 'bad'
+                        this.message = '認知功能異常'
+                        this.form.dementia='認知功能異常';
+                        this.danger='true';
+                    }else{
+                        this.status = 'good'
+                        this.message = '認知正常'
+                        this.form.dementia='認知正常';
+                        this.danger='false';
+                    }
+                }
+                console.log(this.form.dementia);
+                this.form.filetime = date.toLocaleDateString();
+                if (this.userinfo.user_id !='') {
+                    axios.post("/front/dementiaadd.do", this.form).then((response) => {
+                        if (response.data.flag) {
+                            //登录成功,跳转到index.html
+                            this.notifytype = 'success';
+                            this.msg = '提交档案成功！'
+                            window.location.href = "result.html?message="+this.message+"&status="+this.status+"&name="+this.userinfo.user_name;
+                            this.toNotify();
+                        } else {
+                            //失败，提示失败信息
+                            this.$message.error(response.data.message);
+                        }
+                    });
+                };
+            },
+            getUser(){
+                axios.post("/front/getuser.do?user_id="+this.form.user_id).then((response) => {
+                    if(response.data.flag){
+                        this.useinfovisual='false';
+                        console.log(response.data.data);
+                        this.userinfov = response.data.data;
+                        if (this.organization===this.userinfov.organization){
+                            this.userinfo=this.userinfov;
+                            if(this.userinfo.user_gende===1){
+                                this.user_gender="1";
+                            }else{
+                                this.user_gender="0";
+                            }
+                            console.log(this.user_gender);
+                            this.visual = 'false';
+                            this.notifytype = 'success';
+                            this.msg = '查询用户档案成功'
+                            this.toNotify();
+
+                        }else{
+                            this.visual = '';
+                            this.notifytype = 'danger';
+                            this.msg = '該用戶不屬於此機構，如有疑問請聯繫管理員'
+                            this.toNotify();
+                        }
+                    }else{
+                        //失败，提示失败信息
+                        this.visual = '';
+                        this.notifytype = 'warning';
+                        this.msg = '查询失败，请检测网络情况'
+                        this.toNotify();
+                    }
+                });
+
+
             },
             onClickLeft() {
                 history.go(-1)
             },
+            changeway2(){
+                this.queryvisual = 'false';
+                this.visual = 'false';
+            },
+            changeway1(){
+                this.queryvisual = 'true';
+            },
+            toNotify() {
+                this.$notify({ type: this.notifytype, message: this.msg });
+            }
         },
     });
 </script>

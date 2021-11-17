@@ -11,18 +11,26 @@
 
     <select id="selectByCondition" parameterType="string"
             resultType="com.health.pojo.Patient">
+        select * from t_patient  where organization = #{value}
+
+    </select>
+
+    <select id="selectByConditionnoog" parameterType="string"
+            resultType="com.health.pojo.Patient">
         select * from t_patient
-        <if test="value != null and value.length > 0">
-            where user_id = #{value} or user_name = #{value}
-        </if>
     </select>
 
     <select id="adminselectByCondition" parameterType="string"
             resultType="com.health.pojo.User">
         select * from t_user
-        <if test="value != null and value.length > 0">
-            where user_id = #{value} or user_name = #{value}
+        <if test="value != '中華醫事科技大學' ">
+            where organization = #{value}
         </if>
+    </select>
+
+    <select id="adminselectByConditionnoog" parameterType="string"
+            resultType="com.health.pojo.User">
+        select * from t_user
     </select>
 
     <delete id="deleteById" parameterType="String">
@@ -70,5 +78,46 @@
         select count(*) from test_Sarcopenia where sarcopenia = 1
     </select>
 
+    <select id="countde" resultType="long" >
+        select count(*) from test_dementia
+    </select>
 
+    <select id="countdetrue" resultType="long" >
+        select count(*) from test_dementia where dementia != '認知正常'
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.health.pojo.Patient">
+        select * from t_patient where user_id = #{user_id}
+    </select>
+    <select id="adminfindById" parameterType="string" resultType="com.health.pojo.User">
+        select * from t_user where user_id = #{user_id}
+    </select>
+
+    <update id="useredit" parameterType="com.health.pojo.User">
+        update t_user
+        <set>
+            <if test="user_name != null">
+                user_name = #{user_name},
+            </if>
+            <if test="user_gender != null">
+                user_gender = #{user_gender},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="user_age != null">
+                user_age = #{user_age},
+            </if>
+            <if test="organization != null">
+                organization = #{organization},
+            </if>
+            <if test="role != null">
+                role = #{role},
+            </if>
+            <if test="user_id!= null">
+                user_id = #{user_id},
+            </if>
+        </set>
+        where user_id = #{user_id}
+    </update>
 </mapper>

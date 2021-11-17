@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Vant CDN Demo</title>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+    <link rel="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/antui.css"/>
+    <!-- js -->
+    <script src="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/antui.js"></script>
+    <LINK REL="stylesheet" href="https://gw.alipayobjects.com/as/g/antui/antui/10.1.32/dpl/widget/card.css">
+</head>
+<style>
+    body {
+        color: #333;
+        background-color: #f8f8f8;
+    }
+    p{
+        margin-left: 10px;
+    }
+    sum{
+        color: #3a8ee6;
+    }
+    .van{
+        font-size: 20px;
+    }
+    .van-radio{
+        margin: 10px;
+        font-size: 20px;
+
+    }
+    .am-card-title div{
+        font-size: 20px;
+    }
+    .am-card-content .am-card-title span{
+        color: #3a8ee6;
+    }
+
+
+</style>
+<body>
+<div style="display: flex;align-items: center;justify-content: center">
+<div id="app" style="width: 800px;">
+    <van-nav-bar
+            title="銀髮族健康監測-營養不良收集"
+            left-text="返回"
+            @click-left="onClickLeft"
+            left-arrow
+    ></van-nav-bar>
+    <!-- 模板 -->
+
+    <!-- 通用错误 -->
+    <van-empty image="error" description="描述文字" />
+    <!-- 网络错误 -->
+    <van-empty image="network" description="描述文字" />
+    <!-- 搜索提示 -->
+    <van-empty image="search" description="描述文字" />
+    <div class="am-card">
+    <div class="am-card-item">
+        <div class="am-card-minfo">
+            <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
+
+            </div>
+            <div class="am-card-content">
+                <div class="am-card-title">查詢用戶档案</div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <van-form @submit="onSubmit">
+        <van-cell-group>
+
+
+            <van-field
+                    v-model="form.user_id"
+                    center
+                    clearable
+                    label="手機號碼"
+                    placeholder="請輸入手機號碼"
+                    v-if="queryvisual === 'true'"
+                    class="van"
+
+            >
+                <template #button>
+                    <van-button size="small" type="primary" @click="getUser" >立即查詢</van-button>
+                </template>
+            </van-field>
+
+
+
+        </van-cell-group>
+    </van-form>
+
+    <van-divider>技術提供：中華醫事科技大學</van-divider>
+
+
+
+
+
+
+</div>
+</div>
+<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+
+<script>
+    // 初始化 Vue 实例
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                switchChecked: false,
+                userinfoselect:'1',
+                user_id:'',
+                username: 'linkingchian',
+                password: '',
+                organization:'dgut',
+                radio:'',
+                q1:0,
+                q2:0,
+                q3:0,
+                q4:0,
+                q5:0,
+                q6:0,
+                message:'',
+                status:'',
+                user_name:'',
+                form: {
+                    user_id: '',
+                    score: '',
+                    malnutrition:'',
+                    filetime:'',
+                },
+                userinfo:{
+                    user_name:'',
+                    user_age:'',
+                    user_id:'',
+                    user_gender: '',
+                },
+                msg:'',
+                notifytype:'',
+                userinfov:'',
+                user_address:'',
+                sumcount:'',
+                value:'',
+                visual:'',
+                queryvisual:'true',
+                userinfovisual:'',
+                userinfov:{},
+                danger:'',
+            };
+        },
+        created(){
+            //发送请求获取当前登录用户的用户名、
+            axios.get('/user/getUsername.do').then((response)=>{
+                this.username = response.data.data;
+                axios.get('/front/getuserog.do?user_name='+this.username).then((response)=>{
+                    this.organization = response.data.data.organization;
+                });
+            });
+
+
+        },
+
+        methods: {
+            onSubmit(values) {
+                this.sumcount = Number(this.q1)+ Number(this.q2)+Number(this.q3)+Number(this.q4)+Number(this.q5)+Number(this.q6)
+                //如果分数12～14，则无风险
+                this.form.score = this.sumcount
+                console.log(this.form.score)
+                if(this.sumcount>=12){
+                    this.danger='false'
+                    this.form.malnutrition = '营养正常'
+                }else if(this.sumcount>=8 && this.sumcount<=11){
+                    this.danger='true'
+                    this.form.malnutrition = '轻微营养不良风险'
+                }else if(this.sumcount<=7){
+                    this.danger='deeper'
+                    this.form.malnutrition = '营养不良'
+                }
+
+                //如果分数9-11，有营养不良的风险
+                //低于七分，进一步问卷
+
+
+
+                this.userinfo.organization=this.organization
+                axios.post("/front/addpatient.do",this.userinfo).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.notifytype = 'danger';
+                        this.msg = '提交用户档案成功！'
+                        this.toNotify();
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+                var date=new Date();
+                this.form.filetime = date.toLocaleDateString();
+                axios.post("/front/malnutritionadd.do",this.form).then((response) => {
+                    if(response.data.flag){
+                        //登录成功,跳转到index.html
+                        this.notifytype = 'success';
+                        this.msg = '提交档案成功！'
+                        this.toNotify();
+                    }else{
+                        //失败，提示失败信息
+                        this.$message.error(response.data.message);
+                    }
+                });
+            },
+            onClickLeft() {
+                history.go(-1)
+            },
+            getUser(){
+                axios.post("/front/getuser.do?user_id="+this.form.user_id).then((response) => {
+                    if(response.data.flag){
+                        this.useinfovisual='false';
+                        console.log(response.data.data);
+                        this.userinfov = response.data.data;
+                        if (this.organization===this.userinfov.organization){
+                            this.userinfo=this.userinfov;
+                            this.visual = 'false';
+                            this.notifytype = 'success';
+                            this.msg = '查询用户档案成功'
+
+                            axios.post("/front/getanything.do?user_id="+this.form.user_id).then((response) => {
+                                if(response.data.flag){
+
+                                }else{
+
+                                }
+                            })
+
+                        }else{
+                            this.visual = '';
+                            this.notifytype = 'danger';
+                            this.msg = '該用戶不屬於此機構，如有疑問請聯繫管理員'
+                            this.toNotify();
+                        }
+                    }else{
+                        //失败，提示失败信息
+                        this.visual = '';
+                        this.notifytype = 'warning';
+                        this.msg = '查询失败，请检测网络情况'
+                        this.toNotify();
+                    }
+                });
+
+
+            },
+            changeway2(){
+                this.queryvisual = 'false';
+                this.visual = 'false';
+            },
+            changeway1(){
+                this.queryvisual = 'true';
+            },
+            toNotify() {
+                this.$notify({ type: this.notifytype, message: this.msg });
+            },
+        },
+    });
+</script>
+</body>
+</html>

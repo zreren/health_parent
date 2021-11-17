@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="big5">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
     <!-- 引入样式文件 -->
@@ -26,6 +26,7 @@
     <van-nav-bar
             title="銀髮族健康監測-肌少症檔案詳情"
             left-text="返回"
+            @click-left="onClickLeft"
             left-arrow
     ></van-nav-bar>
 
@@ -100,6 +101,9 @@
 
         },
         methods: {
+            onClickLeft(){
+                history.go(-1)
+            },
             // position 为关闭时点击的位置
             onSelect(item) {
                 // 默认情况下点击选项时不会自动收起
@@ -110,6 +114,9 @@
                     window.location.href = 'tel:'+this.selectuser;
                     //发送数据库更新指令，更新患者数据的探访时间
                 }
+            },
+            onClickLeft() {
+                history.go(-1)
             },
             // instance 为对应的 SwipeCell 实例
             delivery({user_id}){

@@ -1,6 +1,8 @@
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/SarcopeniaController.java
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/UserfileController.java
+/Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/ArticleController.java
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/CheckItemController.java
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/FrontRequestController.java
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/service/SpringSecurityUserService.java
+/Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/MalnutritionController.java
 /Users/lincheng/IdeaProjects/health_parent/health_backend/src/main/java/com/health/controller/UserController.java

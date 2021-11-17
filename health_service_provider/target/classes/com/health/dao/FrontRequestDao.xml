@@ -19,6 +19,49 @@
             filetime = VALUES(filetime)
     </insert>
 
+    <insert id="malnutritionadd" parameterType="com.health.pojo.Malnutrition">
+        insert  into table_malnutrition(user_id,score,malnutrition,filetime)
+        values
+        (#{user_id},#{score},#{malnutrition},#{filetime})
+        ON DUPLICATE KEY UPDATE
+            score = VALUES(score),
+            malnutrition = VALUES(malnutrition),
+            filetime = VALUES(filetime)
+    </insert>
+
+
+
+    <insert id="dementiaadd" parameterType="com.health.pojo.Dementia">
+        insert  into test_dementia(user_id,education,score,dementia,filetime)
+        values
+        (#{user_id},#{education},#{score},#{dementia},#{filetime})
+            ON DUPLICATE KEY UPDATE
+             education = VALUES(education),
+             score = VALUES(score),
+             dementia = VALUES(dementia),
+             filetime = VALUES(filetime)
+    </insert>
+
+    <insert id="frailtyadd" parameterType="com.health.pojo.Frailty">
+        insert  into test_frailty(user_id,score,frailty,filetime)
+        values
+            (#{user_id},#{score},#{dementia},#{filetime})
+            ON DUPLICATE KEY UPDATE
+                                 score = VALUES(score),
+                                 dementia = VALUES(dementia),
+                                 filetime = VALUES(filetime)
+    </insert>
+
+    <insert id="osteoporosisadd" parameterType="com.health.pojo.Patient">
+        insert  into test_osteoporosis(user_id,user_weight,osteoporosis,filetime)
+        values
+            (#{user_id},#{user_weight},#{osteoporosis},#{filetime})
+            ON DUPLICATE KEY UPDATE
+                                    user_weight = VALUES(user_weight),
+                                    osteoporosis = VALUES(osteoporosis),
+                                 filetime = VALUES(filetime)
+    </insert>
+
     <insert id="addpatient" parameterType="com.health.pojo.Patient">
         insert ignore into t_patient(user_id,user_gender,user_age,user_address,organization,user_name)
         values
@@ -32,13 +75,61 @@
 
     </insert>
 
+    <select id="foodselectByCondition" parameterType="string"
+            resultType="com.health.pojo.Article">
+        select * from foodcard
+        <if test="value != null and value.length > 0">
+            where title = #{value}
+        </if>
+    </select>
+
+
+        <update id="articleeditById" parameterType="com.health.pojo.Article">
+            update article
+            <set>
+                <if test="content != null">
+                    content = #{content},
+                </if>
+                <if test="title != null">
+                    title = #{title},
+                </if>
+                <if test="content_introduce != null">
+                    content_introduce = #{content_introduce},
+                </if>
+                <if test="time != null">
+                    time = #{time},
+                </if>
+
+            </set>
+            where id = #{id}
+        </update>
+
+    <update id="foodeditById" parameterType="com.health.pojo.Article">
+        update foodcard
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content_introduce != null">
+                imgurl = #{imgurl},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 
     <select id="getuser" resultType="com.health.pojo.Patient">
         select * from t_patient where user_id = #{user_id}
     </select>
+    <select id="getanything" resultType="com.health.pojo.Patient">
+        select * from (t_patient INNER JOIN test_Sarcopenia ON t_patient.user_id = test_Sarcopenia.user_id) INNER JOIN test_dementia ON t_patient.user_id=test_dementia.user_id
+    </select>
 
     <select id="getuserog" resultType="com.health.pojo.User">
-        SELECT organization from t_user where user_name=#{user_name}
+        SELECT organization,role from t_user where user_name=#{user_name}
     </select>
 
     <select id="getexit"  resultType="com.health.pojo.User">
@@ -48,6 +139,29 @@
     <select id="selectByCondition" parameterType="string"
             resultType="java.util.Map">
         select * from test_Sarcopenia s,t_patient p where s.user_id=p.user_id
+        <if test="value != null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+
+    <select id="articleselectByCondition" parameterType="string" resultType="java.util.Map">
+        select * from article
+        <if test="value != null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+
+    <select id="deselectByCondition" parameterType="string"
+            resultType="java.util.Map">
+        select * from test_dementia d,t_patient p where d.user_id=p.user_id
+        <if test="value != null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+
+    <select id="osselectByCondition" parameterType="string"
+            resultType="java.util.Map">
+        select * from test_osteoporosis d,t_patient p where d.user_id=p.user_id
         <if test="value != null and value.length > 0">
             where code = #{value} or name = #{value}
         </if>

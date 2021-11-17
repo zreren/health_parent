@@ -3,4 +3,6 @@ com/health/controller/UserfileController.class
 com/health/controller/UserController.class
 com/health/controller/SarcopeniaController.class
 com/health/controller/FrontRequestController.class
+com/health/controller/MalnutritionController.class
+com/health/controller/ArticleController.class
 com/health/controller/CheckItemController.class

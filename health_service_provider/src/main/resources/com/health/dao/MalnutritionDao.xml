@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.health.dao.MalnutritionDao">
+    <!--新增-->
+    <insert id="add" parameterType="com.health.pojo.Malnutrition">
+        insert into table_malnutrition(user_id,score,malnutrition,filetime)
+        values
+        (#{user_id},#{score},#{malnutrition},#{filetime})
+    </insert>
+    <select id="selectByCondition" parameterType="string"
+            resultType="com.health.pojo.Malnutrition">
+        select * from table_malnutrition s,t_patient p where s.user_id=p.user_id
+        <if test="value != null and value.length > 0">
+            where user_id = #{value} or user_name = #{value}
+        </if>
+
+    </select>
+
+
+
+    <delete id="deleteById" parameterType="String">
+        delete from table_malnutrition where user_id = #{user_id}
+    </delete>
+
+
+    <update id="edit" parameterType="com.health.pojo.Malnutrition">
+        update table_malnutrition m LEFT JOIN t_patient p
+        ON
+        m.user_id = p.user_id
+        <set>
+            <if test="user_name != null">
+                p.user_name = #{user_name},
+            </if>
+            <if test="score != null">
+                m.score = #{score},
+            </if>
+            <if test="malnutrition != null">
+                m.malnutrition = #{malnutrition},
+            </if>
+            <if test="filetime != null">
+                m.filetime = #{filetime},
+            </if>
+        </set>
+        where m.user_id = #{user_id}
+    </update>
+
+
+
+    <select id="findById" parameterType="String" resultType="com.health.pojo.Malnutrition">
+        select * from table_malnutrition s,t_patient p where s.user_id=#{user_id} and p.user_id =#{user_id}
+    </select>
+
+
+</mapper>

@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.health.constant.MessageConstant;
 import com.health.entity.PageResult;
 import com.health.entity.QueryPageBean;
+import com.health.entity.QueryPageBean2;
 import com.health.entity.Result;
 import com.health.pojo.Patient;
 import com.health.pojo.Sarcopenia;
+import com.health.pojo.User;
 import com.health.service.SarcopeniaService;
 import com.health.service.UserfileService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,13 +30,28 @@ public class UserfileController {
                 queryPageBean.getQueryString());
         return pageResult;
     }
-
-    @RequestMapping("/adminfindPage")
-    public PageResult adminfindPage(@RequestBody QueryPageBean queryPageBean){
-        PageResult pageResult = userfileService.adminpageQuery(
+    @RequestMapping("/findPagenoog")
+    public PageResult findPagenoog(@RequestBody QueryPageBean queryPageBean){
+        PageResult pageResult = userfileService.pageQuerynoog(
                 queryPageBean.getCurrentPage(),
                 queryPageBean.getPageSize(),
                 queryPageBean.getQueryString());
+        return pageResult;
+    }
+
+    @RequestMapping("/adminfindPage")
+    public PageResult adminfindPage(@RequestBody QueryPageBean2 queryPageBean2){
+        PageResult pageResult = userfileService.adminpageQuery(
+                queryPageBean2.getCurrentPage(),
+                queryPageBean2.getPageSize(),
+                queryPageBean2.getOrganization());
+        return pageResult;
+    }
+    @RequestMapping("/adminfindPagenoog")
+    public PageResult adminfindPagenoog(@RequestBody QueryPageBean2 queryPageBean2){
+        PageResult pageResult = userfileService.adminpageQuerynoog(
+                queryPageBean2.getCurrentPage(),
+                queryPageBean2.getPageSize());
         return pageResult;
     }
 
@@ -76,18 +93,29 @@ public class UserfileController {
         }
         return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
     }
-//
-//    @RequestMapping("/findById")
-//    public Result findById(Integer id){
-//        try{
-//            Sarcopenia sarcopenia = userfileService.findById(id);
-//            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,sarcopenia);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            //服务调用失败
-//            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
-//        }
-//    }
+
+    @RequestMapping("/useredit")
+    public Result useredit(@RequestBody User user){
+        try {
+            userfileService.useredit(user);
+        }catch (Exception e){
+            return new Result(false,MessageConstant.EDIT_CHECKITEM_FAIL);
+        }
+        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+
+    @RequestMapping("/adminfindById")
+    public Result findById(String user_id){
+        try{
+            User user = userfileService.adminfindById(user_id);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,user);
+        }catch (Exception e){
+            e.printStackTrace();
+            //服务调用失败
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
 
 }
 
