@@ -89,20 +89,31 @@
         <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
         <div class="am-card-body">
 
-                <div class="am-card-item">
-                    <div class="am-card-minfo">
-                        <div class="am-card-thumb" style="border-radius: 10px">
 
-                            <img src="../img/searchicon.png" />
-
-                        </div>
+                    <div v-if="userinfo.user_name==''" style="display: flex;justify-content: center;align-items: center">
+                        <div class="am-card-minfo">
                         <div class="am-card-content">
-                            <div class="am-card-title">查詢用戶档案</div>
-                    </div>
+                            <div class="am-card-title">
+                                <img src="../img/blank.png" style="margin-top: 30px" />
+                                </div>
+                            <div>
+                                查詢後顯示結果
+                            </div>
+                        </div>
+                    </div></div>
+                    <div class="am-list am-list-users" v-if="userinfo.user_name!=''">
+                        <div class="am-card-item">
+                            <div class="am-card-minfo">
+                                <div class="am-card-thumb" style="border-radius: 10px">
 
-                </div>
+                                    <img src="../img/searchicon.png" />
 
-                    <div class="am-list am-list-users">
+                                </div>
+                                <div class="am-card-content">
+                                    <div class="am-card-title">用戶档案</div>
+                                </div>
+
+                            </div>
                         <div class="am-list-body">
                             <div class="am-list-item">
                                 <div class="am-list-thumb"><img src="https://zos.alipayobjects.com/rmsportal/wMkOIiXzNqrSFSWYjDNe.png" alt=""></div>
@@ -119,13 +130,14 @@
 
 
         </div></div>
-        <div class="contentBox">
+
+        <div class="contentBox" v-if="userinfo.user_name!=''">
             <div class="am-card">
                 <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
                 <div class="am-card-body">
 
 
-                    <a href="filedetail-sa.html">
+
                         <div class="am-card-item">
                             <div class="am-card-minfo">
                                 <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
@@ -142,7 +154,7 @@
 
                             </div>
                         </div>
-                    </a>
+
                                     <div class="am-card-item">
                                         <div class="am-card-minfo">
                                             <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
@@ -158,7 +170,7 @@
 
                                         </div>
                                     </div>
-                    <a href="filedetail-os.html">
+
                         <div class="am-card-item">
                             <div class="am-card-minfo">
                                 <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
@@ -174,7 +186,7 @@
 
                             </div>
                         </div>
-                    </a>
+
                                     <div class="am-card-item">
                                         <div class="am-card-minfo">
                                             <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
@@ -191,7 +203,7 @@
                                         </div>
 
                                     </div>
-                    <a HREF="filedetail-de.html">
+
                         <div class="am-card-item">
                             <div class="am-card-minfo">
                                 <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
@@ -207,7 +219,7 @@
 
                             </div>
                         </div>
-                    </a>
+
                 </div>
             </div>
 

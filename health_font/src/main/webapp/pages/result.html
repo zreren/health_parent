@@ -77,8 +77,8 @@
         </div>
     </div>
     <div class="am-button-wrap">
-        <button class="am-button blue">继续添加</button>
-        <button class="am-button white">返回选项页</button>
+        <button class="am-button blue" @click="returnback">继续添加</button>
+        <button class="am-button white" @click="returnindex">返回首页</button>
     </div>
     </div>
 
@@ -248,6 +248,12 @@
             },
             toNotify() {
                 this.$notify({ type: this.notifytype, message: this.msg });
+            },
+            returnback() {
+                history.go(-1)
+            },
+            returnindex() {
+                window.location.href ="index.html"
             },
         },
     });

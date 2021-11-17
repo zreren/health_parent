@@ -217,17 +217,17 @@
                 console.log(this.form.user_weight);
                 console.log(this.bmi);
                 if (this.bmi>=2 ){
-                    this.form.osteoporosis=2;
+                    this.form.osteoporosis='該用戶存在严重骨質疏鬆風險';
                     this.danger='true';
                     this.status = 'bad'
-                    this.message = '該用戶存在严重骨質疏鬆風險，請關注'
+                    this.message = '該用戶存在严重骨質疏鬆風險'
                 }else if(this.bmi<2 && this.bmi>=-1 ){
-                    this.form.osteoporosis=1;
+                    this.form.osteoporosis= '用戶存在中度骨質疏鬆風險，請關注';
                     this.danger='mid';
                     this.status = 'bad'
                     this.message = '該用戶存在中度骨質疏鬆風險，請關注'
                 }else{
-                    this.form.osteoporosis=0;
+                    this.form.osteoporosis= '該用戶沒有骨質疏鬆';
                     this.danger='false';
                     this.status = 'good'
                     this.message = '該用戶沒有骨質疏鬆，檔案已提交到數據庫'
