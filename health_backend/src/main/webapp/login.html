@@ -1,61 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- 页面meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>銀髮健康監測平台</title>
-        <meta name="description" content="銀髮健康監測平台">
-        <meta name="keywords" content="銀髮健康監測平台">
-        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-        <!-- 引入样式 -->
-        <link rel="stylesheet" href="plugins/elementui/index.css">
-        <link rel="stylesheet" href="css/login.css">
-        <!-- 引入组件库 -->
-        <script src="js/vue.js"></script>
-        <script src="plugins/elementui/index.js"></script>
-    </head>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>銀髮健康監測平台</title>
+    <meta name="description" content="銀髮健康監測平台">
+    <meta name="keywords" content="銀髮健康監測平台">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="plugins/elementui/index.css">
+    <link rel="stylesheet" href="css/login.css">
+    <!-- 引入组件库 -->
+    <script src="js/vue.js"></script>
+    <script src="plugins/elementui/index.js"></script>
+</head>
 
-    <body class="hold-transition skin-purple sidebar-mini" >
-        <div id="app" >
-            <div class="login-container">
-                <div class="loginBox">
-                  <form method="post" class="login-form" action="/login.do" label-position="left" style="border-radius: 20px
+<body class="hold-transition skin-purple sidebar-mini" >
+<div id="app" >
+    <div class="login-container">
+        <div class="loginBox">
+            <form method="post" class="login-form" action="/login.do" label-position="left" style="border-radius: 20px
                   ;" >
-                      <div class="title-container">
-                        <div class="logoInfo clearfix">
-                          <p style="color:dodgerblue;font-size: 30px;width: 100%">銀髮健康監測平台後台管理系統</p>
-                        </div>
-                      </div>
-                      <div>
+                <div class="title-container">
+                    <div class="logoInfo clearfix">
+                        <p class="logoInfo">銀髮健康監測LOGIN</p>
+                    </div>
+                </div>
+                <div>
                         <span class="svg-container svg-container_login">
                           <span class="user"></span>
                         </span>
-                        <input type="text" name="user_name" placeholder="请输入用户名" style="width: 80%;font-size: 20px" />
-                      </div>
-                      <div>
+                    <input type="text" name="user_name" placeholder="請輸入用戶名" class="e" />
+                </div>
+                <div>
                         <span class="svg-container">
                           <span class="username"></span>
                         </span>
-                        <input type="password" name="password" placeholder="请输入密码" style="width: 80%;font-size: 20px"/>
-                      </div>
-                          <input type="submit" style="width:400px;display:block;margin:0 auto;height: 40px" value="登录"></input>
-
-                </form>
+                    <input type="password" name="password" placeholder="請輸入您的密碼" class="e"/>
                 </div>
-              </div>
+                <div >
+                <input type="submit" class="f" style="display: block"></input>
+                </div>
+            </form>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 
-    <script>
-        var vue = new Vue({
-            el: '#app',
-            data: {
-                form:{
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: {
 
-                }
-            },
-        });
-    </script>
+            form:{
+
+            }
+        },
+    });
+</script>
 
 </html>

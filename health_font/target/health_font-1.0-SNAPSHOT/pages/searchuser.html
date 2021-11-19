@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
-    <title>Vant CDN Demo</title>
+    <title>銀髮族健康檢測平台-用戶查詢</title>
     <script src="../plugins/vue/axios-0.18.0.js"></script>
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
@@ -61,7 +61,7 @@
     <!-- 搜索提示 -->
     <van-empty image="search" description="描述文字" />
 
-    <van-form @submit="onSubmit">
+    <van-form>
         <van-cell-group>
 
 
@@ -138,7 +138,7 @@
 
 
 
-                        <div class="am-card-item">
+                        <div class="am-card-item" v-if="form.sarcopeni!=''">
                             <div class="am-card-minfo">
                                 <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
 
@@ -155,7 +155,7 @@
                             </div>
                         </div>
 
-                                    <div class="am-card-item">
+                                    <div class="am-card-item" v-if="form4.frailty!=''">
                                         <div class="am-card-minfo">
                                             <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
 
@@ -171,7 +171,7 @@
                                         </div>
                                     </div>
 
-                        <div class="am-card-item">
+                        <div class="am-card-item" v-if="form3.osteoporosis!=''">
                             <div class="am-card-minfo">
                                 <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
 
@@ -187,7 +187,7 @@
                             </div>
                         </div>
 
-                                    <div class="am-card-item">
+                                    <div class="am-card-item" v-if="form5.malnutrition!=''">
                                         <div class="am-card-minfo">
                                             <div class="am-card-thumb" style="background-color: #3a8ee6;border-radius: 10px">
 
@@ -238,7 +238,6 @@
 <!-- 引入 Vue 和 Vant 的 JS 文件 -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
-
 <script>
     // 初始化 Vue 实例
     new Vue({
@@ -315,55 +314,7 @@
 
 
         },
-
         methods: {
-            onSubmit(values) {
-                this.sumcount = Number(this.q1)+ Number(this.q2)+Number(this.q3)+Number(this.q4)+Number(this.q5)+Number(this.q6)
-                //如果分数12～14，则无风险
-                this.form.score = this.sumcount
-                console.log(this.form.score)
-                if(this.sumcount>=12){
-                    this.danger='false'
-                    this.form.malnutrition = '营养正常'
-                }else if(this.sumcount>=8 && this.sumcount<=11){
-                    this.danger='true'
-                    this.form.malnutrition = '轻微营养不良风险'
-                }else if(this.sumcount<=7){
-                    this.danger='deeper'
-                    this.form.malnutrition = '营养不良'
-                }
-
-                //如果分数9-11，有营养不良的风险
-                //低于七分，进一步问卷
-
-
-
-                this.userinfo.organization=this.organization
-                axios.post("/front/addpatient.do",this.userinfo).then((response) => {
-                    if(response.data.flag){
-                        //登录成功,跳转到index.html
-                        this.notifytype = 'danger';
-                        this.msg = '提交用户档案成功！'
-                        this.toNotify();
-                    }else{
-                        //失败，提示失败信息
-                        this.$message.error(response.data.message);
-                    }
-                });
-                var date=new Date();
-                this.form.filetime = date.toLocaleDateString();
-                axios.post("/front/malnutritionadd.do",this.form).then((response) => {
-                    if(response.data.flag){
-                        //登录成功,跳转到index.html
-                        this.notifytype = 'success';
-                        this.msg = '提交档案成功！'
-                        this.toNotify();
-                    }else{
-                        //失败，提示失败信息
-                        this.$message.error(response.data.message);
-                    }
-                });
-            },
             onClickLeft() {
                 history.go(-1)
             },
@@ -430,18 +381,18 @@
                 })
             },
             getanything4(){
-                axios.post("/front/getanything4.do?user_id="+this.form.user_id).then((response3) => {
-                    if(response3.data.flag){
-                        this.form4 = response3.data.data;
+                axios.post("/front/getanything4.do?user_id="+this.form.user_id).then((response4) => {
+                    if(response4.data.flag){
+                        this.form4 = response4.data.data;
                     }else{
 
                     }
                 })
             },
             getanything5(){
-                axios.post("/front/getanything5.do?user_id="+this.form.user_id).then((response3) => {
-                    if(response3.data.flag){
-                        this.form5 = response3.data.data;
+                axios.post("/front/getanything5.do?user_id="+this.form.user_id).then((response5) => {
+                    if(response5.data.flag){
+                        this.form5 = response5.data.data;
                     }else{
 
                     }

@@ -220,13 +220,13 @@
                 if(this.userinfo.user_gender== 0){
                     if (midgrip<18 && everywalk<0.8){
                         this.form.sarcopenia='該用戶存在肌少症風險，請關注';
-                        this.danger='true'
+
                         this.status = 'bad'
                         this.message = '該用戶存在肌少症風險，請關注'
                         console.log('女性判断')
                     }else{
                         this.form.sarcopenia='該用戶沒有肌少症風險';
-                        this.danger='false'
+
                         this.status = 'good'
                         this.message = '該用戶沒有肌少症風險，檔案已提交到數據庫'
 
@@ -237,11 +237,11 @@
                         this.form.sarcopenia='該用戶存在肌少症風險，請關注';
                         this.status = 'bad'
                         this.message = '該用戶存在肌少症風險，請關注'
-                        this.danger='true'
+
                         console.log('男性判断')
                     }else{
                         this.form.sarcopenia='該用戶沒有肌少症風險';
-                        this.danger='false'
+
                         this.status = 'good'
                         this.message = '該用戶沒有肌少症風險，檔案已提交到數據庫'
                         console.log('男性判断')

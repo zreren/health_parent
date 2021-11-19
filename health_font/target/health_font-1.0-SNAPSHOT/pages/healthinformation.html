@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="big5">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
@@ -50,34 +50,50 @@
         <div class="am-card">
             <!--                    <div class="am-card-header">带图和描述文字卡片样式</div>-->
             <div class="am-card-body">
-                <a HREF="article1.html">
-                    <div class="am-card-item">
+<!--                <el-col :span="8" v-for="item in dataList" :key="item" class="foodcard" @click="articleread(item.id,item.content,item.title)">-->
+<!--                    <el-card :body-style="{ padding: '0px' }" shadow="hover" >-->
+<!--                        <div>-->
+<!--                            <div class="show" >{{item.title}}</div>-->
+<!--                        </div>-->
+<!--                        <div  class="infobox">-->
+<!--                            <div class="title">{{item.title}}</div>-->
+<!--                            <div style="color: gray" class="introduce">{{item.content_introduce}}</div>-->
+<!--                            <div class="bottom clearfix">-->
+
+<!--                                <time class="time">发布时间:{{ item.time }}</time>-->
+<!--                                &lt;!&ndash; <el-button type="text" class="button">操作按钮</el-button> &ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-card>-->
+<!--                </el-col>-->
+
+                    <div class="am-card-item" v-for="item in dataList" :key="item">
                         <div class="am-card-minfo">
                             <div class="articleimg">
                                 <img src="../img/jc-banner2.png" style="height: 90%;width: 90%" />
                             </div>
                             <div class="am-card-content">
-                                <div class="am-card-title">愛吃肉的朋友有福了，讓我們一起均衡吃肉減肥吧！</div>
-                                <div class="am-card-subtitle">吃肉一定長胖嗎？其實...</div>
+                                <div class="am-card-title">{{item.title}}</div>
+                                <div class="am-card-subtitle">{{item.content_introduce}}</div>
                             </div>
                             <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
                         </div>
                     </div>
-                </a>
-                <a HREF="article1.html">
-                    <div class="am-card-item">
-                        <div class="am-card-minfo">
-                            <div class="articleimg">
-                                <img src="../img/jc-banner1.png" style="height: 90%;width: 90%" />
-                            </div>
-                            <div class="am-card-content">
-                                <div class="am-card-title">你還在吃生酮飲食嗎？</div>
-                                <div class="am-card-subtitle">生酮飲食是最近很好的飲食方式，但是...</div>
-                            </div>
-                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
-                        </div>
-                    </div>
-                </a>
+
+<!--                <a HREF="article1.html">-->
+<!--                    <div class="am-card-item">-->
+<!--                        <div class="am-card-minfo">-->
+<!--                            <div class="articleimg">-->
+<!--                                <img src="../img/jc-banner1.png" style="height: 90%;width: 90%" />-->
+<!--                            </div>-->
+<!--                            <div class="am-card-content">-->
+<!--                                <div class="am-card-title">你還在吃生酮飲食嗎？</div>-->
+<!--                                <div class="am-card-subtitle">生酮飲食是最近很好的飲食方式，但是...</div>-->
+<!--                            </div>-->
+<!--                            <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </a>-->
 
 
         <div style="display: flex;justify-content: center" >
@@ -90,10 +106,25 @@
 <script>
     new Vue({
     el: '#app',
+        data:{
+            dataList:'',
+            param:{
+                currentPage:1,//页码
+                pageSize:10,//每页显示的记录数
+            }
+        },
+        created(){
+            axios.post("/front/articlefind.do",this.param).then((response)=> {
+                //为模型数据赋值，基于VUE的双向绑定展示到页面
+                this.dataList = response.data.rows;
+                console.log(info.dataList)
+            });
+        },
     methods:{
         onClickLeft(){
             history.go(-1)
         },
+
     }
 });
 </script>

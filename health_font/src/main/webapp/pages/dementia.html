@@ -253,11 +253,11 @@
                 <van-radio name="1">正確1</van-radio>
             </van-radio-group>
         </van-cell>
-        <van-cell V-if="danger != ''" style="">
-            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶認知正常，檔案已提交到數據庫</div>
-            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在認知障礙，請關注</div>
-            <div v-if="danger === 'trueplus'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在重度認知障礙！！請關注</div>
-        </van-cell>
+<!--        <van-cell V-if="danger != ''" style="">-->
+<!--            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶認知正常，檔案已提交到數據庫</div>-->
+<!--            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在認知障礙，請關注</div>-->
+<!--            <div v-if="danger === 'trueplus'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}該用戶存在重度認知障礙！！請關注</div>-->
+<!--        </van-cell>-->
     </van-cell-group>
     <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit" @click="onSubmit()">提交表單</van-button>

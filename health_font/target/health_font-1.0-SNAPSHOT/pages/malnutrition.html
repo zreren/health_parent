@@ -181,11 +181,11 @@
                 <div class="am-list-arrow" aria-hidden="true"><span class="am-icon arrow horizontal"></span></div>
             </div>
         </div>
-        <van-cell V-if="danger != ''" style="">
-            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
-            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: blue;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
-            <div v-if="danger === 'deeper'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}</div>
-        </van-cell>
+<!--        <van-cell V-if="danger != ''" style="">-->
+<!--            <div v-if="danger === 'false'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: green;color: white;font-size: 20px"> {{userinfo.user_name}}</div>-->
+<!--            <div v-if="danger === 'true'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: blue;color: white;font-size: 20px"> {{userinfo.user_name}}</div>-->
+<!--            <div v-if="danger === 'deeper'" STYLE="border-radius: 10px;display: flex;justify-content: center;align-items: center;background-color: red;color: white;font-size: 20px"> {{userinfo.user_name}}</div>-->
+<!--        </van-cell>-->
         <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit" @click="onSubmit">提交表單</van-button>
         </div>
